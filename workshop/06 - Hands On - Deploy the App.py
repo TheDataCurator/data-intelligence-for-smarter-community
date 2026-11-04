@@ -1,17 +1,22 @@
 # Databricks notebook source
 # MAGIC %md-sandbox
 # MAGIC <div style="display:flex; align-items:center; gap:16px; padding:18px 22px; background:linear-gradient(135deg,#1B3139 0%,#1B5162 100%); border-radius:12px; color:#fff; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">
-# MAGIC   <span style="display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:10px; background:#FF3621; font-weight:800; font-size:18px;">R</span>
-# MAGIC   <span style="display:inline-flex; align-items:center; justify-content:center; padding:0 12px; height:40px; border-radius:10px; background:#0055B7; font-weight:800; font-size:15px;">UBC</span>
+# MAGIC   <span style="display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:10px; background:#FF3621; font-weight:800; font-size:18px;">DB</span>
+# MAGIC   <span style="display:inline-flex; align-items:center; justify-content:center; padding:0 12px; height:40px; border-radius:10px; background:#500000; font-weight:800; font-size:15px;">TAMU</span>
 # MAGIC   <div style="font-size:15px; font-weight:600; opacity:0.9;">Smart Community Testbed on Databricks · Lab 06</div>
 # MAGIC </div>
 
 # COMMAND ----------
 
 # MAGIC %md
+# MAGIC _Modified November 2026 by Hayley Horn for the TAMU Datathon: UBC campus data and references replaced with Texas A&M campus data from OpenStreetMap (ODbL)._
+
+# COMMAND ----------
+
+# MAGIC %md
 # MAGIC # Lab 06 — Deploy the App
 # MAGIC
-# MAGIC The finale: a live **Databricks App** — an interactive UBC campus map over *your* data,
+# MAGIC The finale: a live **Databricks App** — an interactive TAMU campus map over *your* data,
 # MAGIC with a dropdown of dataset views and an inline **Ask Genie** panel. It's backed by your
 # MAGIC **Silver** tables and the **Genie space** from Lab 05. This is your hackathon starting point.
 # MAGIC
@@ -219,8 +224,8 @@ print("\n🎉 Your app is live at:\n", app.url)
 
 # MAGIC %md
 # MAGIC ## E. Open it
-# MAGIC Click the URL above. You should see the **UBC campus map**; use the dropdown to switch
-# MAGIC dataset views (Building Access, Wireless Presence, UBC Urban Data Lake, …) and the
+# MAGIC Click the URL above. You should see the **TAMU campus map**; use the dropdown to switch
+# MAGIC dataset views (Building Access, Wireless Presence, TAMU University Data Lake, …) and the
 # MAGIC **Ask Genie** panel on the right to ask questions of your data.
 # MAGIC
 # MAGIC > First load can take ~30–60s while the app warms up and the warehouse starts.

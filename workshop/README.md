@@ -1,8 +1,10 @@
-# Smart Community Testbed on Databricks — UBC Smart Community Workshop
+# Smart Community Testbed on Databricks: TAMU Smart Campus Workshop
+
+_Modified November 2026 for the TAMU Datathon: UBC campus data replaced with Texas A&M campus data from OpenStreetMap (ODbL)._
 
 A hands-on, six-lab workshop that takes students end-to-end on the Databricks Data
-Intelligence Platform using **synthetic cellular-tower + smart-campus data** for UBC
-Vancouver — the raw material for the hackathon's **transit** and **security** themes.
+Intelligence Platform using **synthetic cellular-tower + smart-campus data** for the Texas A&M
+campus in College Station — the raw material for the datathon's **transit** and **security** themes.
 
 Students finish with a live, single-tab **Databricks App**: an interactive campus map over
 their own data, with an inline **Ask Genie** panel.
@@ -11,8 +13,8 @@ their own data, with an inline **Ask Genie** panel.
 
 | Lab | Notebook | Builds |
 |---|---|---|
-| 01 | `01 - Hands On - Explore & Profile the Data` | Query + profile the Bronze telemetry in UC (generation happens in Classroom-Setup); confirm the UBC geodata is staged in a Volume |
-| 02 | `02 - Hands On - Clean & Transform` | Ingest the UBC open geodata (Volume → `dim_buildings` + `dim_zones`), then clean all Bronze → Silver |
+| 01 | `01 - Hands On - Explore & Profile the Data` | Query + profile the Bronze telemetry in UC (generation happens in Classroom-Setup); confirm the TAMU campus geodata is staged in a Volume |
+| 02 | `02 - Hands On - Clean & Transform` | Ingest the Texas A&M campus geodata (Volume → `dim_buildings` + `dim_zones`), then clean all Bronze → Silver |
 | 03 | `03 - Hands On - Visualize with AI-BI` | AI/BI dashboard (transit + security views) |
 | 04 | `04 - Hands On - Build Serving Tables` | Gold serving tables (`building_activity`, `cell_health`) |
 | 05 | `05 - Hands On - Create a Genie Space` | Natural-language Q&A space + captured Space ID |
@@ -40,7 +42,7 @@ workshop/
     ├── Classroom-Setup-Common.py     # helper library (catalog, schemas, compute check, app helpers)
     ├── Classroom-Setup-01..06.py     # per-lab setup (chains to Common)
     ├── smart_campus_generators.py    # telemetry generator, run by Classroom-Setup (generate_telemetry)
-    ├── geojson/                      # UBCGeodata building/zone polygons (CC BY 4.0)
+    ├── geojson/                      # TAMU building/zone polygons from OpenStreetMap (ODbL)
     └── reference_code/app/           # the trimmed single-tab app, pre-built (Lab 06 deploys this)
 ```
 
@@ -56,7 +58,7 @@ workshop/
 
 ## Attribution
 
-Building footprints, names, and neighbourhoods from **UBCGeodata** (UBC Campus & Community
-Planning) via the Abacus Data Network under **CC BY 4.0**. All telco-attributed telemetry
+Building footprints, names, and neighbourhoods from **OpenStreetMap** contributors under the
+**Open Database License (ODbL)**. All telco-attributed telemetry
 is synthetic demo data modeled on publicly-known patterns — not derived from any carrier's
 proprietary data.

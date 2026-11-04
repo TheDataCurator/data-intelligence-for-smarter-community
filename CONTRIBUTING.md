@@ -1,9 +1,11 @@
+_Modified November 2026 for the TAMU Datathon: UBC references replaced with Texas A&M and OpenStreetMap (ODbL)._
+
 # Contributing
 
 Thanks for your interest in improving **Data Intelligence for Smarter Communities** — a
 hands-on Databricks accelerator that takes generic telco network signal + campus IoT data
 end-to-end on the Databricks Data Intelligence Platform (Bronze → Silver → Gold → AI/BI →
-Genie → Databricks App), using the UBC Vancouver campus as a real geospatial testbed.
+Genie → Databricks App), using the Texas A&M campus in College Station as a real geospatial testbed.
 
 ## What this repo is
 
@@ -22,8 +24,8 @@ generic, telco-provider-neutral accelerator.
 - **Provider-neutral.** Keep the content generic — do not introduce specific telco / ISP
   brand names, real PLMNs, or real network identifiers. Use the example test PLMN (`001-01`)
   and generic labels ("the telco", "the carrier", "broadband gateway").
-- The only real data is **UBCGeodata** (building + neighbourhood footprints), used under
-  **CC BY 4.0** — keep its attribution intact.
+- The only real data is **OpenStreetMap** (building + neighbourhood footprints), used under
+  **ODbL** — keep its attribution intact.
 
 ## Conventions
 

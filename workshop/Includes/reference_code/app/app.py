@@ -1,3 +1,4 @@
+# Modified November 2026 by Hayley Horn for the TAMU Datathon: UBC campus data and references replaced with Texas A&M campus data from OpenStreetMap (ODbL).
 """Smart Community Testbed - FastAPI backend + static React frontend."""
 from __future__ import annotations
 import os
@@ -73,7 +74,7 @@ def get_data(dataset_key: str, range: str = Query("all", pattern="^(24h|7d|30d|a
     return _json(result)
 
 
-# -------- Real UBC GeoJSON footprints --------
+# -------- Real TAMU GeoJSON footprints --------
 @app.get("/api/geojson/buildings")
 def geojson_buildings():
     try:

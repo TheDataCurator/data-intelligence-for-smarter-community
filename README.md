@@ -1,4 +1,12 @@
-# Data Intelligence for Smarter Communities
+# Data Intelligence for Smarter Communities: Texas A&M Edition
+
+> **TAMU Datathon 2026 edition.** This is a modified copy of
+> [databricks-solutions/data-intelligence-for-smarter-community](https://github.com/databricks-solutions/data-intelligence-for-smarter-community),
+> adapted in November 2026 for the Texas A&M Datathon. The UBC campus map data was replaced
+> with Texas A&M building footprints from OpenStreetMap, and campus names, coordinates,
+> zones and app branding were changed to match. Modified files carry a notice at the top.
+> Map data © [OpenStreetMap contributors](https://www.openstreetmap.org/copyright), available
+> under the Open Database License (ODbL). All telemetry is synthetic.
 
 A hands-on Databricks accelerator that shows how a **telco provider** can turn network
 signal + campus/city IoT data into governed **smart-community intelligence** on the
@@ -7,8 +15,8 @@ data lake. You start with synthetic **smart-community data** (cellular-tower + I
 and take it end-to-end — **generate → clean → visualize → ask in plain English → ship an
 app** — building toward **transit**, **congestion**, and **security** use cases.
 
-The **UBC Vancouver campus** is the testbed: telemetry is synthetic, but it's grounded on
-real UBC building footprints so the map and insights feel real. By the end you'll have a
+The **Texas A&M campus in College Station** is the testbed: telemetry is synthetic, but it's grounded on
+real Texas A&M building footprints so the map and insights feel real. By the end you'll have a
 live **Databricks App**: an interactive campus map over your own data, with an **Ask Genie**
 panel.
 
@@ -16,7 +24,7 @@ panel.
 
 The full **Data Intelligence Platform loop** on smart-community data:
 
-**Bronze** (generated telemetry) → **Silver** (cleaned + fused with real UBC geodata) →
+**Bronze** (generated telemetry) → **Silver** (cleaned + fused with real TAMU campus geodata) →
 **Gold** (serving tables) → **AI/BI** dashboards → **Genie** natural-language Q&A →
 **Databricks App** (interactive campus map + Ask Genie).
 
@@ -40,7 +48,7 @@ or a **Vocareum** lab account. Specifically:
 
 **1. Clone this repo into your workspace as a Git folder**
 - In Databricks: **Workspace** (left sidebar) → your home → **Create → Git folder**
-- Git repository URL: `https://github.com/databricks-solutions/data-intelligence-for-smarter-community`
+- Git repository URL: `https://github.com/TheDataCurator/data-intelligence-for-smarter-community`
 - Branch: **`main`** → **Create Git folder**
 
 **2. Open the course and attach Serverless**
@@ -59,7 +67,7 @@ or a **Vocareum** lab account. Specifically:
 |---|---|---|
 | 00 | Course Overview | Agenda + requirements |
 | 01 | Explore & Profile the Data | Query + profile the raw data in Unity Catalog |
-| 02 | Ingest Geodata & Clean | Load real UBC map data → **Silver** tables |
+| 02 | Ingest Geodata & Clean | Load real TAMU map data → **Silver** tables |
 | 03 | Visualize with AI/BI | An **AI/BI dashboard** (transit + security) |
 | 04 | Build Serving Tables | **Gold** tables for the app + Genie |
 | 05 | Create a Genie Space | Ask your data questions in plain English |
@@ -81,8 +89,8 @@ or a **Vocareum** lab account. Specifically:
   access events, device health, mobility/presence, wireless cells / coverage / KPIs, gateway
   connectivity, and daily campus metrics. Modeled on publicly-known patterns — **not derived
   from any carrier's proprietary data**. Uses the example test PLMN `001-01`.
-- **Real geospatial data** — building footprints and neighbourhoods from **UBCGeodata**
-  (UBC Campus & Community Planning) via the Abacus Data Network, used under **CC BY 4.0**.
+- **Real geospatial data** — building footprints and neighbourhoods from **OpenStreetMap**
+  contributors, used under the **Open Database License (ODbL)**. The neighborhood zones are approximate areas drawn for this demo, not official Texas A&M boundaries.
   This is the only real data and drives the campus map.
 
 ## How to get help
@@ -100,7 +108,7 @@ subject to the licenses set forth below.
 
 | library / data | description | license | source |
 |----------------|-------------|---------|--------|
-| UBCGeodata | UBC Vancouver building footprints & neighbourhood boundaries (the only real data; drives the campus map) | CC BY 4.0 | UBC Campus & Community Planning, via the Abacus Data Network |
+| OpenStreetMap | Texas A&M building footprints & campus boundary (the only real data; drives the campus map) | ODbL | © OpenStreetMap contributors, https://www.openstreetmap.org/copyright |
 | PySpark | Distributed data processing | Apache 2.0 | https://github.com/apache/spark |
 | pandas | Data generation / manipulation | BSD-3-Clause | https://github.com/pandas-dev/pandas |
 | NumPy | Synthetic data generation | BSD-3-Clause | https://github.com/numpy/numpy |

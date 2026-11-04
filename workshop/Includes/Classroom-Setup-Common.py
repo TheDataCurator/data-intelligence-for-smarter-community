@@ -5,8 +5,13 @@
 # COMMAND ----------
 
 # MAGIC %md
+# MAGIC _Modified November 2026 by Hayley Horn for the TAMU Datathon: UBC campus data and references replaced with Texas A&M campus data from OpenStreetMap (ODbL)._
+
+# COMMAND ----------
+
+# MAGIC %md
 # MAGIC # Classroom-Setup-Common
-# MAGIC Shared helpers for the **UBC Smart Community** workshop. Every per-lab
+# MAGIC Shared helpers for the **TAMU Smart Campus** workshop. Every per-lab
 # MAGIC setup notebook (`Classroom-Setup-01` … `Classroom-Setup-06`) runs this file first
 # MAGIC via `%run ./Classroom-Setup-Common`.
 # MAGIC
@@ -510,9 +515,9 @@ def copy_folder(src: str, dst: str, clean: bool = False) -> str:
 # COMMAND ----------
 
 # DBTITLE 1,Workshop data provisioning (telemetry generation + geodata volume)
-# The real UBC open geodata files uploaded to a Volume for students to ingest in Lab 02.
+# The real Texas A&M campus geodata (OpenStreetMap) files uploaded to a Volume for students to ingest in Lab 02.
 GEODATA_VOLUME = "raw_geodata"
-GEODATA_FILES = ["ubcv_buildings.geojson", "ubcv_neighbourhoods.geojson"]
+GEODATA_FILES = ["tamu_buildings.geojson", "tamu_neighbourhoods.geojson"]
 
 
 def _course_includes_dir() -> str:
@@ -530,7 +535,7 @@ def ensure_bronze_data(catalog: str):
 
     1. Generate the 9 synthetic *telemetry* Bronze tables into `<catalog>.bronze`
        (skipped if already present — so only the first lab pays the cost).
-    2. Upload the real UBC open geodata (UBCGeodata, CC BY 4.0) to the Volume
+    2. Upload the real Texas A&M campus geodata (OpenStreetMap) (OpenStreetMap, ODbL) to the Volume
        `<catalog>.bronze.raw_geodata` so students ingest it in Lab 02.
 
     Dimension tables (dim_buildings, dim_zones) are NOT created here — those come
@@ -550,12 +555,12 @@ def ensure_bronze_data(catalog: str):
         generate_telemetry(spark, catalog, BRONZE_SCHEMA, scale=WORKSHOP_SCALE, seed=SEED,
                            geojson_dir=f"{includes}/geojson")
 
-    # 2) Real UBC open geodata → Volume (one-time).
+    # 2) Real Texas A&M campus geodata → Volume (one-time).
     spark.sql(f"CREATE VOLUME IF NOT EXISTS `{catalog}`.`{BRONZE_SCHEMA}`.`{GEODATA_VOLUME}`")
     vol_dir = f"/Volumes/{catalog}/{BRONZE_SCHEMA}/{GEODATA_VOLUME}"
     for fn in GEODATA_FILES:
         dst = f"{vol_dir}/{fn}"
         if not os.path.exists(dst):
             shutil.copy(f"{includes}/geojson/{fn}", dst)
-    print(f"✅ UBC open geodata uploaded to Volume: {vol_dir}")
+    print(f"✅ Texas A&M campus geodata uploaded to Volume: {vol_dir}")
     return vol_dir

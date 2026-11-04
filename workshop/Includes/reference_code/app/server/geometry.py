@@ -1,15 +1,16 @@
-"""UBC real-world building and zone footprints from UBCGeodata (CC BY 4.0).
+# Modified November 2026 by Hayley Horn for the TAMU Datathon: UBC campus data and references replaced with Texas A&M campus data from OpenStreetMap (ODbL).
+"""TAMU real-world building and zone footprints from OpenStreetMap (ODbL).
 
 Loads GeoJSON files once on startup and merges in the dim_buildings/dim_zones
-rows from Delta tables so the map renders real UBC polygons with up-to-date
+rows from Delta tables so the map renders real TAMU polygons with up-to-date
 table properties.
 
-Source: UBCGeodata (Abacus Library), UBC Campus & Community Planning.
-https://abacus.library.ubc.ca/dataset.xhtml?persistentId=hdl:11272.1/AB2/S15BIR
+Source: OpenStreetMap contributors, Open Database License (ODbL).
+https://www.openstreetmap.org/copyright
 
 This module resolves 38 residences via BCOM_UID (bcom_uid) in
-``ubcv_complexes.geojson`` with a NAME-substring fallback for the two legacy
-slots whose geometry still lives in ``ubcv_buildings.geojson`` (Orchard
+``tamu_complexes.geojson`` with a NAME-substring fallback for the two legacy
+slots whose geometry still lives in ``tamu_buildings.geojson`` (legacy UBC
 Commons and Exchange Residence).  The legacy slots are only consulted if the
 Delta row's ``bcom_uid`` is NULL.
 """
@@ -43,11 +44,11 @@ def _load_geojson(name: str) -> Dict[str, Any]:
 def _ensure_loaded() -> None:
     global _complexes, _buildings, _neighbourhoods, _complexes_by_uid
     if _complexes is None:
-        _complexes = _load_geojson("ubcv_complexes.geojson")
+        _complexes = _load_geojson("tamu_complexes.geojson")
     if _buildings is None:
-        _buildings = _load_geojson("ubcv_buildings.geojson")
+        _buildings = _load_geojson("tamu_buildings.geojson")
     if _neighbourhoods is None:
-        _neighbourhoods = _load_geojson("ubcv_neighbourhoods.geojson")
+        _neighbourhoods = _load_geojson("tamu_neighbourhoods.geojson")
     if _complexes_by_uid is None:
         idx: Dict[str, Dict[str, Any]] = {}
         for feat in _complexes.get("features", []):  # type: ignore[union-attr]
@@ -94,49 +95,32 @@ def _find_features_contains(
 
 
 # Legacy fallback mapping for building_ids whose dim row has no bcom_uid.
-# This covers the two flagship slots (BLDG_004 Orchard Commons, BLDG_008
+# In the UBC original this covered two flagship slots (BLDG_004, BLDG_008
 # Exchange Residence) kept in the pre-38-building dim schema.  With the new
 # 38-building dim these slots hold different bcom_uids, so the lookup-by-uid
 # path normally wins; this map is only consulted when bcom_uid is NULL.
-LEGACY_BUILDING_MAP: Dict[str, Dict[str, Any]] = {
-    # Orchard Commons - merge Vantage College + Childcare footprints
-    "BLDG_004": {
-        "source": "buildings_multi",
-        "names": [
-            "Orchard Commons - Vantage College",
-            "Orchard Commons - Childcare",
-        ],
-    },
-    "BLDG_008": {"source": "buildings", "names": ["Exchange Residence"]},
-}
+LEGACY_BUILDING_MAP: Dict[str, Dict[str, Any]] = {}
 
 
 # Mapping: our zone_name -> (source file, NAME, contains?). None means fall back to circle.
 ZONE_MAP: Dict[str, Optional[Dict[str, Any]]] = {
-    "AMS Student Nest": {"source": "buildings", "name": "AMS Student Nest"},
-    "Irving K. Barber Learning Centre": {
-        "source": "buildings",
-        "name": "Irving K. Barber Learning Centre",
-    },
-    "Koerner Library": {"source": "buildings", "name": "Walter C. Koerner Library"},
-    "UBC Aquatic Centre": {"source": "buildings", "name": "UBC Aquatic Centre"},
-    "UBC Bookstore": {"source": "buildings", "name": "UBC Bookstore / NCE"},
-    "War Memorial Gym": {"source": "buildings", "name": "War Memorial Gymnasium"},
-    "Life Sciences Institute": {"source": "buildings", "name": "Life Sciences Centre"},
-    "Nitobe Memorial Garden": {"source": "buildings", "name": "Nitobe Memorial Garden"},
-    "Rose Garden": {"source": "buildings", "name": "Rose Garden Parkade"},
-    "Wesbrook Village": {
-        "source": "neighbourhoods",
-        "name": "Wesbrook Place",
-        "contains": True,
-    },
+    "Memorial Student Center": {"source": "buildings", "name": "Memorial Student Center"},
+    "Sterling C. Evans Library": {"source": "buildings", "name": "Sterling C. Evans Library"},
+    "Academic Building": {"source": "buildings", "name": "Academic Building"},
+    "Student Recreation Center": {"source": "buildings", "name": "Student Recreation Center"},
+    "Zachry Engineering Education Complex": {"source": "buildings", "name": "Zachry Engineering Education Complex"},
+    "Reed Arena": {"source": "buildings", "name": "Reed Arena"},
+    "Kyle Field": {"source": "buildings", "name": "Kyle Field"},
+    "Veterinary Teaching Hospital": {"source": "buildings", "name": "Veterinary Teaching Hospital"},
+    "The Commons": {"source": "buildings", "name": "Commons"},
     # Fall back to small circles
-    "Thunderbird Arena": None,
-    "UBC Bus Loop": None,
-    "MacInnes Field": None,
-    "UBC Farm": None,
-    "Main Mall Central": None,
-    "Student Union Blvd Transit": None,
+    "College Main Parking Garage Stop": None,
+    "Military Walk": None,
+    "Century Tree": None,
+    "Simpson Drill Field": None,
+    "Aggie Bonfire Memorial": None,
+    "Aggie Park": None,
+    "White Creek Transit": None,
 }
 
 
@@ -144,7 +128,7 @@ def circle_polygon(
     lat: float, lon: float, radius_m: float = 60, n: int = 24
 ) -> Dict[str, Any]:
     """Return a GeoJSON Polygon approximating a circle centered at (lat, lon)."""
-    # Convert meters to degrees. At UBC latitude (~49.26°N):
+    # Convert meters to degrees. At Texas A&M latitude (~30.61°N):
     # 1° lat ≈ 111,320 m   1° lon ≈ cos(lat) * 111,320 m
     deg_lat = radius_m / 111_320.0
     cos_lat = math.cos(math.radians(lat))
@@ -198,7 +182,7 @@ def _resolve_legacy_building_geom(mapping: Dict[str, Any]) -> Optional[Dict[str,
 
 
 def _resolve_building_geom_by_uid(bcom_uid: Optional[str]) -> Optional[Dict[str, Any]]:
-    """Lookup a complex polygon from ubcv_complexes.geojson by BCOM_UID."""
+    """Lookup a complex polygon from tamu_complexes.geojson by BCOM_UID."""
     if not bcom_uid:
         return None
     _ensure_loaded()
@@ -211,7 +195,7 @@ def _resolve_building_geom_by_uid(bcom_uid: Optional[str]) -> Optional[Dict[str,
 def _resolve_building_geom_by_name(
     building_name: Optional[str],
 ) -> Optional[Dict[str, Any]]:
-    """Fallback: look up a polygon by NAME in ubcv_complexes.geojson."""
+    """Fallback: look up a polygon by NAME in tamu_complexes.geojson."""
     if not building_name:
         return None
     _ensure_loaded()
@@ -251,12 +235,12 @@ def _resolve_zone_geom(
 
 
 def get_building_polygons() -> Dict[str, Any]:
-    """Return a GeoJSON FeatureCollection for dim_buildings using real UBC geometry.
+    """Return a GeoJSON FeatureCollection for dim_buildings using real TAMU geometry.
 
     Resolution order for each row:
-      1) Match by ``bcom_uid`` against ubcv_complexes.geojson (preferred).
+      1) Match by ``bcom_uid`` against tamu_complexes.geojson (preferred).
       2) Match by building_name substring (fallback).
-      3) Legacy hard-coded BLDG_* mapping for pre-38 slots (Orchard, Exchange).
+      3) Legacy hard-coded BLDG_* mapping (empty for the TAMU edition).
       4) Small circle at stored lat/lon (last resort).
     """
     rows = run_query(
@@ -311,9 +295,9 @@ def get_building_polygons() -> Dict[str, Any]:
     }
 
 
-# -------------------- Campus Map (all 444 UBC buildings) --------------------
+# -------------------- Campus Map (all TAMU campus buildings) --------------------
 
-# Map UBCGeodata BLDG_USAGE values to user-facing categories.
+# Map OpenStreetMap BLDG_USAGE values to user-facing categories.
 USAGE_TO_CATEGORY: Dict[str, str] = {
     "Housing": "Residential",
     "StudentHousing": "Residential",
@@ -342,9 +326,9 @@ def _categorize(usage: Optional[str]) -> str:
 
 
 def get_campus_polygons() -> Dict[str, Any]:
-    """Return a GeoJSON FeatureCollection of ALL UBC Vancouver buildings
-    (444 features), annotated with a user-facing ``category`` derived from
-    the UBCGeodata ``BLDG_USAGE`` attribute.  Includes a ``meta`` block with
+    """Return a GeoJSON FeatureCollection of ALL Texas A&M campus buildings
+    (321 features), annotated with a user-facing ``category`` derived from
+    the OpenStreetMap ``BLDG_USAGE`` attribute.  Includes a ``meta`` block with
     per-category counts and up-to-5 example names.
     """
     _ensure_loaded()
@@ -420,7 +404,7 @@ def get_campus_polygons() -> Dict[str, Any]:
 
 
 def get_zone_polygons() -> Dict[str, Any]:
-    """Return a GeoJSON FeatureCollection for dim_zones using real UBC geometry."""
+    """Return a GeoJSON FeatureCollection for dim_zones using real TAMU geometry."""
     rows = run_query(
         f"""
         SELECT zone_id, zone_name, zone_type, latitude, longitude
@@ -433,8 +417,8 @@ def get_zone_polygons() -> Dict[str, Any]:
     for row in rows:
         zname = row.get("zone_name") or ""
         mapping = ZONE_MAP.get(zname, None)
-        lat = float(row["latitude"]) if row.get("latitude") is not None else 49.2606
-        lon = float(row["longitude"]) if row.get("longitude") is not None else -123.2460
+        lat = float(row["latitude"]) if row.get("latitude") is not None else 30.6125
+        lon = float(row["longitude"]) if row.get("longitude") is not None else -96.3418
         geom, matched = _resolve_zone_geom(mapping, lat, lon)
         if not matched:
             fallback_zones.append(zname)

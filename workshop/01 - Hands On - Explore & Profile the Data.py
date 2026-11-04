@@ -1,10 +1,15 @@
 # Databricks notebook source
 # MAGIC %md-sandbox
 # MAGIC <div style="display:flex; align-items:center; gap:16px; padding:18px 22px; background:linear-gradient(135deg,#1B3139 0%,#1B5162 100%); border-radius:12px; color:#fff; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">
-# MAGIC   <span style="display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:10px; background:#FF3621; font-weight:800; font-size:18px;">R</span>
-# MAGIC   <span style="display:inline-flex; align-items:center; justify-content:center; padding:0 12px; height:40px; border-radius:10px; background:#0055B7; font-weight:800; font-size:15px;">UBC</span>
+# MAGIC   <span style="display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:10px; background:#FF3621; font-weight:800; font-size:18px;">DB</span>
+# MAGIC   <span style="display:inline-flex; align-items:center; justify-content:center; padding:0 12px; height:40px; border-radius:10px; background:#500000; font-weight:800; font-size:15px;">TAMU</span>
 # MAGIC   <div style="font-size:15px; font-weight:600; opacity:0.9;">Smart Community Testbed on Databricks · Lab 01</div>
 # MAGIC </div>
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC _Modified November 2026 by Hayley Horn for the TAMU Datathon: UBC campus data and references replaced with Texas A&M campus data from OpenStreetMap (ODbL)._
 
 # COMMAND ----------
 
@@ -12,9 +17,9 @@
 # MAGIC # Lab 01 — Explore &amp; Profile the Data
 # MAGIC
 # MAGIC Before you transform anything, get to know your data. When you ran setup, your workspace
-# MAGIC was seeded with a realistic **smart-community dataset** for the UBC Vancouver campus:
+# MAGIC was seeded with a realistic **smart-community dataset** for the Texas A&M campus in College Station:
 # MAGIC nine synthetic **telemetry** tables already landed in your **Bronze** schema, and the real
-# MAGIC **UBC open geodata** (UBCGeodata, CC BY 4.0) was uploaded to a **Volume** for you to
+# MAGIC **Texas A&M campus geodata** (OpenStreetMap, ODbL) was uploaded to a **Volume** for you to
 # MAGIC ingest in Lab 02.
 # MAGIC
 # MAGIC In this lab you'll **query**, **profile**, and **check** that data in Unity Catalog — the
@@ -23,7 +28,7 @@
 # MAGIC ## Objectives
 # MAGIC - List and inspect your **Bronze** tables in **Unity Catalog** (SQL + Catalog Explorer)
 # MAGIC - **Profile** a table: row counts, distinct values, nulls, distributions
-# MAGIC - Confirm the raw **UBCGeodata** file is staged in your **Volume**
+# MAGIC - Confirm the raw **OpenStreetMap** file is staged in your **Volume**
 # MAGIC
 # MAGIC ## Agenda
 # MAGIC **A.** Setup · **B.** What setup provisioned · **C.** Explore in Unity Catalog · **D.** Profile a table · **E.** Check the geodata Volume · **F.** 🎯 Your turn
@@ -48,7 +53,7 @@
 # MAGIC
 # MAGIC - **Bronze telemetry** (9 tables) in `DA_BRONZE` — building access, device health, mobility,
 # MAGIC   wireless (cells / coverage / KPIs), gateway connectivity, and daily campus metrics.
-# MAGIC - **Raw geodata** in the Volume `GEODATA_DIR` — the real UBCGeodata building + neighbourhood
+# MAGIC - **Raw geodata** in the Volume `GEODATA_DIR` — the real OpenStreetMap building + neighbourhood
 # MAGIC   files, waiting to be ingested in Lab 02.
 # MAGIC
 # MAGIC The dimension tables (`dim_buildings`, `dim_zones`) do **not** exist yet — you'll build them
@@ -124,7 +129,7 @@ null_counts.display()
 
 # MAGIC %md
 # MAGIC ## E. Check the geodata Volume
-# MAGIC The one piece of **real** data is the UBC open geodata. Setup uploaded it to a **Volume**
+# MAGIC The one piece of **real** data is the Texas A&M campus geodata. Setup uploaded it to a **Volume**
 # MAGIC (governed file storage in Unity Catalog). Let's confirm it's there and peek inside — this
 # MAGIC is the file you'll ingest in Lab 02.
 
@@ -139,7 +144,7 @@ display(dbutils.fs.ls(GEODATA_DIR))
 # DBTITLE 1,Peek inside the buildings GeoJSON
 import json
 
-with open(f"{GEODATA_DIR}/ubcv_buildings.geojson") as f:
+with open(f"{GEODATA_DIR}/tamu_buildings.geojson") as f:
     gj = json.load(f)
 
 feats = gj.get("features", [])
@@ -168,7 +173,7 @@ print("Geometry type:", feats[0]["geometry"]["type"])
 # MAGIC %md
 # MAGIC ### ✅ Recap
 # MAGIC You explored and profiled the Bronze telemetry in Unity Catalog and confirmed the raw
-# MAGIC **UBCGeodata** is staged in your Volume. In **Lab 02** you'll **ingest** that geodata into
+# MAGIC **OpenStreetMap** is staged in your Volume. In **Lab 02** you'll **ingest** that geodata into
 # MAGIC `dim_buildings` and `dim_zones`, then clean everything into a trustworthy **Silver** layer.
 
 # COMMAND ----------

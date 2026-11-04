@@ -1,25 +1,30 @@
 # Databricks notebook source
 # MAGIC %md-sandbox
 # MAGIC <div style="display:flex; align-items:center; gap:16px; padding:18px 22px; background:linear-gradient(135deg,#1B3139 0%,#1B5162 100%); border-radius:12px; color:#fff; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">
-# MAGIC   <span style="display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:10px; background:#FF3621; font-weight:800; font-size:18px;">R</span>
-# MAGIC   <span style="display:inline-flex; align-items:center; justify-content:center; padding:0 12px; height:40px; border-radius:10px; background:#0055B7; font-weight:800; font-size:15px;">UBC</span>
+# MAGIC   <span style="display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:10px; background:#FF3621; font-weight:800; font-size:18px;">DB</span>
+# MAGIC   <span style="display:inline-flex; align-items:center; justify-content:center; padding:0 12px; height:40px; border-radius:10px; background:#500000; font-weight:800; font-size:15px;">TAMU</span>
 # MAGIC   <div style="font-size:15px; font-weight:600; opacity:0.9;">Smart Community Testbed on Databricks · Lab 02</div>
 # MAGIC </div>
 
 # COMMAND ----------
 
 # MAGIC %md
+# MAGIC _Modified November 2026 by Hayley Horn for the TAMU Datathon: UBC campus data and references replaced with Texas A&M campus data from OpenStreetMap (ODbL)._
+
+# COMMAND ----------
+
+# MAGIC %md
 # MAGIC # Lab 02 — Ingest the Geodata &amp; Clean to Silver
 # MAGIC
-# MAGIC Two jobs this lab. First, **ingest** the real UBC open geodata sitting in your Volume into
+# MAGIC Two jobs this lab. First, **ingest** the real Texas A&M campus geodata (OpenStreetMap) sitting in your Volume into
 # MAGIC dimension tables (`dim_buildings`, `dim_zones`) — your first hands-on "load from a source."
 # MAGIC Then promote all of Bronze (the telemetry from setup **plus** your new dimensions) into a
 # MAGIC trustworthy **Silver** layer.
 # MAGIC
 # MAGIC ## Objectives
-# MAGIC - **Ingest** the UBCGeodata GeoJSON from a Volume into `dim_buildings` + `dim_zones`
+# MAGIC - **Ingest** the OpenStreetMap GeoJSON from a Volume into `dim_buildings` + `dim_zones`
 # MAGIC - Apply the core cleaning moves: **de-duplicate**, **validate**, **handle nulls**, **conform keys**
-# MAGIC - Validate every building sits inside the **UBC bounding box**
+# MAGIC - Validate every building sits inside the **TAMU bounding box**
 # MAGIC - Write cleaned **Silver** tables that the app and Genie will read
 # MAGIC
 # MAGIC ## Agenda
@@ -38,12 +43,12 @@
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ## B. Ingest the UBC open geodata
+# MAGIC ## B. Ingest the Texas A&M campus geodata
 # MAGIC
-# MAGIC The one piece of **real** data is the UBCGeodata in your Volume. We read the GeoJSON,
+# MAGIC The one piece of **real** data is the OpenStreetMap in your Volume. We read the GeoJSON,
 # MAGIC pull out the fields we want, compute a centroid for each polygon, and write two
 # MAGIC **Bronze** dimension tables — `dim_buildings` and `dim_zones`. Crucially,
-# MAGIC `ubcv_buildings.geojson` carries `BLDG_UID` (`VBL10xxx`) — the **same key** the telemetry
+# MAGIC `tamu_buildings.geojson` carries `BLDG_UID` (`TBL10xxx`) — the **same key** the telemetry
 # MAGIC uses — so these dimensions join cleanly to everything else.
 
 # COMMAND ----------
@@ -73,10 +78,10 @@ CATEGORY_MAP = {
 
 # COMMAND ----------
 
-# DBTITLE 1,Ingest ubcv_buildings.geojson -> dim_buildings
+# DBTITLE 1,Ingest tamu_buildings.geojson -> dim_buildings
 import json
 
-with open(f"{GEODATA_DIR}/ubcv_buildings.geojson") as f:
+with open(f"{GEODATA_DIR}/tamu_buildings.geojson") as f:
     gj = json.load(f)
 
 rows = []
@@ -100,8 +105,8 @@ display(dim_buildings.limit(5))
 
 # COMMAND ----------
 
-# DBTITLE 1,Ingest ubcv_neighbourhoods.geojson -> dim_zones
-with open(f"{GEODATA_DIR}/ubcv_neighbourhoods.geojson") as f:
+# DBTITLE 1,Ingest tamu_neighbourhoods.geojson -> dim_zones
+with open(f"{GEODATA_DIR}/tamu_neighbourhoods.geojson") as f:
     nj = json.load(f)
 
 zrows = []
@@ -125,25 +130,25 @@ display(dim_zones)
 # MAGIC | Move | Why it matters |
 # MAGIC |---|---|
 # MAGIC | **De-duplicate** on the natural key | Streams re-deliver events; counts must not double |
-# MAGIC | **Validate coordinates** (UBC bbox) | A stray lat/lon puts a building in the ocean on the map |
+# MAGIC | **Validate coordinates** (TAMU bbox) | A stray lat/lon puts a building in the wrong county on the map |
 # MAGIC | **Handle nulls** in join keys | A null `bldg_uid` can't join to a building |
 # MAGIC | **Conform types & keys** | Every dataset must join on the same `bldg_uid` |
 # MAGIC
-# MAGIC UBC Vancouver bounding box: latitude **49.24–49.28 N**, longitude **−123.27 to −123.22 W**
-# MAGIC (covers the full campus — the real building footprints extend east to ≈−123.228).
+# MAGIC Texas A&M bounding box: latitude **30.59–30.632 N**, longitude **−96.370 to −96.322 W**
+# MAGIC (covers Main Campus, West Campus, Research Park and Northgate).
 
 # COMMAND ----------
 
 # DBTITLE 1,Reusable bounding-box check
 from pyspark.sql import functions as F
 
-UBC_LAT_MIN, UBC_LAT_MAX = 49.24, 49.28
-UBC_LON_MIN, UBC_LON_MAX = -123.27, -123.22
+CAMPUS_LAT_MIN, CAMPUS_LAT_MAX = 30.590, 30.632
+CAMPUS_LON_MIN, CAMPUS_LON_MAX = -96.370, -96.322
 
-def in_ubc_bbox(lat_col="latitude", lon_col="longitude"):
+def in_campus_bbox(lat_col="latitude", lon_col="longitude"):
     return (
-        F.col(lat_col).between(UBC_LAT_MIN, UBC_LAT_MAX)
-        & F.col(lon_col).between(UBC_LON_MIN, UBC_LON_MAX)
+        F.col(lat_col).between(CAMPUS_LAT_MIN, CAMPUS_LAT_MAX)
+        & F.col(lon_col).between(CAMPUS_LON_MIN, CAMPUS_LON_MAX)
     )
 
 # COMMAND ----------
@@ -151,7 +156,7 @@ def in_ubc_bbox(lat_col="latitude", lon_col="longitude"):
 # MAGIC %md
 # MAGIC ## D. Clean the dimensions — `dim_buildings`
 # MAGIC The building dimension anchors the whole model, so we clean it first: keep one row per
-# MAGIC `bldg_uid`, and only rows with valid UBC coordinates. (`dim_zones` is cleaned with the
+# MAGIC `bldg_uid`, and only rows with valid TAMU coordinates. (`dim_zones` is cleaned with the
 # MAGIC rest in section F.)
 
 # COMMAND ----------
@@ -163,7 +168,7 @@ silver_bld = (
     bronze_bld
     .dropDuplicates(["bldg_uid"])          # de-duplicate on the natural key
     .filter(F.col("bldg_uid").isNotNull()) # key must exist
-    .filter(in_ubc_bbox())                  # coordinates must be on campus
+    .filter(in_campus_bbox())                  # coordinates must be on campus
 )
 print(f"Silver rows after cleaning: {silver_bld.count()}")
 
@@ -229,7 +234,7 @@ for tbl in REMAINING:
     # neighbourhood areas whose centroid can sit near the bbox edge, so we don't
     # bbox-filter those.)
     if set(["latitude", "longitude"]).issubset(df.columns) and tbl == "wireless_cells":
-        df = df.filter(in_ubc_bbox())
+        df = df.filter(in_campus_bbox())
     df.write.mode("overwrite").option("overwriteSchema", "true").saveAsTable(f"{DA_SILVER}.{tbl}")
     results.append((tbl, df.count()))
 

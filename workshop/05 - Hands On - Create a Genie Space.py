@@ -1,10 +1,15 @@
 # Databricks notebook source
 # MAGIC %md-sandbox
 # MAGIC <div style="display:flex; align-items:center; gap:16px; padding:18px 22px; background:linear-gradient(135deg,#1B3139 0%,#1B5162 100%); border-radius:12px; color:#fff; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">
-# MAGIC   <span style="display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:10px; background:#FF3621; font-weight:800; font-size:18px;">R</span>
-# MAGIC   <span style="display:inline-flex; align-items:center; justify-content:center; padding:0 12px; height:40px; border-radius:10px; background:#0055B7; font-weight:800; font-size:15px;">UBC</span>
+# MAGIC   <span style="display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:10px; background:#FF3621; font-weight:800; font-size:18px;">DB</span>
+# MAGIC   <span style="display:inline-flex; align-items:center; justify-content:center; padding:0 12px; height:40px; border-radius:10px; background:#500000; font-weight:800; font-size:15px;">TAMU</span>
 # MAGIC   <div style="font-size:15px; font-weight:600; opacity:0.9;">Smart Community Testbed on Databricks · Lab 05</div>
 # MAGIC </div>
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC _Modified November 2026 by Hayley Horn for the TAMU Datathon: UBC campus data and references replaced with Texas A&M campus data from OpenStreetMap (ODbL)._
 
 # COMMAND ----------
 
@@ -68,7 +73,7 @@ print("  Gold:  ", DA_GOLD)
 # MAGIC In the space's **Instructions** panel, paste something like this so Genie understands the domain:
 # MAGIC
 # MAGIC <div style="border:1px solid #DCE0E2; border-radius:8px; background:#F9F7F4; padding:14px 18px; margin:12px 0; color:#1B3139; font-size:0.92rem;">
-# MAGIC This data is a synthetic smart-community testbed for the UBC Vancouver campus.
+# MAGIC This data is a synthetic smart-community testbed for the Texas A&M campus in College Station.
 # MAGIC Buildings are keyed by <code>bldg_uid</code> (equals <code>dim_buildings.building_id</code>).
 # MAGIC "Security" questions use <code>sc_access_events</code> (forced_doors = event_type 'door_forced';
 # MAGIC tailgates = 'tailgate_detected'). "Transit / footfall" questions use <code>mobility_presence</code>

@@ -1,13 +1,18 @@
 # Databricks notebook source
 # MAGIC %md-sandbox
 # MAGIC <div style="display:flex; align-items:center; gap:16px; padding:20px 24px; background:linear-gradient(135deg,#1B3139 0%,#1B5162 100%); border-radius:12px; color:#fff; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">
-# MAGIC   <span style="display:inline-flex; align-items:center; justify-content:center; width:44px; height:44px; border-radius:10px; background:#FF3621; font-weight:800; font-size:20px;">R</span>
-# MAGIC   <span style="display:inline-flex; align-items:center; justify-content:center; padding:0 12px; height:44px; border-radius:10px; background:#0055B7; font-weight:800; font-size:16px;">UBC</span>
+# MAGIC   <span style="display:inline-flex; align-items:center; justify-content:center; width:44px; height:44px; border-radius:10px; background:#FF3621; font-weight:800; font-size:20px;">DB</span>
+# MAGIC   <span style="display:inline-flex; align-items:center; justify-content:center; padding:0 12px; height:44px; border-radius:10px; background:#500000; font-weight:800; font-size:16px;">TAMU</span>
 # MAGIC   <div>
 # MAGIC     <div style="font-size:22px; font-weight:700;">Smart Community Testbed on Databricks</div>
-# MAGIC     <div style="font-size:14px; opacity:0.85;">UBC Smart Community Workshop · Point Grey, Sept 2026</div>
+# MAGIC     <div style="font-size:14px; opacity:0.85;">TAMU Smart Campus Workshop · College Station, November 2026</div>
 # MAGIC   </div>
 # MAGIC </div>
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC _Modified November 2026 by Hayley Horn for the TAMU Datathon: UBC campus data and references replaced with Texas A&M campus data from OpenStreetMap (ODbL)._
 
 # COMMAND ----------
 
@@ -17,8 +22,8 @@
 # MAGIC ## Overview
 # MAGIC
 # MAGIC This workshop takes you end-to-end on the Databricks Data Intelligence Platform using
-# MAGIC **synthetic cellular-tower and smart-campus data** for the UBC Vancouver campus — the
-# MAGIC same kind of data you'll work with in the UBC smart-community hackathon on **transit** and
+# MAGIC **synthetic cellular-tower and smart-campus data** for the Texas A&M campus in College Station — the
+# MAGIC same kind of data you'll work with in the TAMU Datathon on **transit** and
 # MAGIC **security** use cases.
 # MAGIC
 # MAGIC You will generate a realistic dataset, clean and conform it with the **medallion

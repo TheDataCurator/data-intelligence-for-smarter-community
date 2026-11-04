@@ -4,13 +4,18 @@
 # MAGIC
 # MAGIC | | |
 # MAGIC |---|---|
-# MAGIC | **Course** | Smart Community Testbed on Databricks (UBC Smart Community Workshop) |
+# MAGIC | **Course** | Smart Community Testbed on Databricks (TAMU Smart Campus Workshop) |
 # MAGIC | **Version** | 1.0.0 |
 # MAGIC | **Tested on** | Serverless |
-# MAGIC | **Data attribution** | Building footprints from **UBCGeodata** (UBC Campus & Community Planning), CC BY 4.0. All telemetry is synthetic demo data. |
+# MAGIC | **Data attribution** | Building footprints from **OpenStreetMap** contributors, ODbL. All telemetry is synthetic demo data. |
 # MAGIC
 # MAGIC Labs (run in order): `01` Explore & Profile → `02` Ingest Geodata & Clean → `03` Visualize with
 # MAGIC AI/BI → `04` Build Serving Tables → `05` Create a Genie Space → `06` Deploy the App.
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC _Modified November 2026 by Hayley Horn for the TAMU Datathon: UBC campus data and references replaced with Texas A&M campus data from OpenStreetMap (ODbL)._
 
 # COMMAND ----------
 

@@ -1,3 +1,4 @@
+# Modified November 2026 by Hayley Horn for the TAMU Datathon: UBC campus data and references replaced with Texas A&M campus data from OpenStreetMap (ODbL).
 """Per-dataset query builders.
 
 Each dataset returns a dict:
@@ -1112,7 +1113,7 @@ def connectivity_presence_buildings(range_key: str) -> Dict[str, Any]:
 
 # -------------------- udl_campus_metrics --------------------
 def udl_campus_metrics(range_key: str) -> Dict[str, Any]:
-    """Right-hand summary panel for the UBC Urban Data Lake consolidated table."""
+    """Right-hand summary panel for the TAMU University Data Lake consolidated table."""
     tbl = table("udl_campus_metrics")
     # `date` column is DATE — use a narrow filter
     _days_map = {"24h": 1, "7d": 7, "30d": 30}
@@ -1247,7 +1248,7 @@ def udl_campus_metrics_buildings(range_key: str, metric: str = "occupancy") -> D
 
 DATASETS: Dict[str, Tuple[str, Any, bool]] = {
     # key: (label, handler, supports_time_filter)
-    "dim_buildings":         ("UBC Residences (dim_buildings)",        dim_buildings,         False),
+    "dim_buildings":         ("TAMU Residence Halls (dim_buildings)",        dim_buildings,         False),
     "dim_zones":             ("Campus Zones (dim_zones)",              dim_zones,             False),
     "sc_access_events":     ("Building Access (sc_access_events)",   sc_access_events,     True),
     "sc_device_health":     ("Device Telemetry (sc_device_health)",  sc_device_health,     True),
@@ -1261,6 +1262,6 @@ DATASETS: Dict[str, Tuple[str, Any, bool]] = {
     "udl_environmental":     ("Environmental Sensors (udl_environmental)", udl_environmental, True),
     "connectivity_presence": ("Connectivity Presence (connectivity_presence)",
                               connectivity_presence,                                            True),
-    "udl_campus_metrics":    ("UBC Urban Data Lake (udl_campus_metrics)",
+    "udl_campus_metrics":    ("TAMU University Data Lake (udl_campus_metrics)",
                               udl_campus_metrics,                                               True),
 }

@@ -1,3 +1,4 @@
+<!-- Modified November 2026 for the TAMU Datathon: attribution line updated for OpenStreetMap (ODbL). -->
 # Description
 
 <!-- What does this PR change and why? -->
@@ -16,5 +17,5 @@
 - [ ] **Synthetic data only** — no customer data, PII, or proprietary information
 - [ ] **No credentials, tokens, or passwords** committed
 - [ ] **Provider-neutral** — no specific telco/ISP brand names or real PLMNs/network IDs
-- [ ] UBCGeodata **CC BY 4.0** attribution preserved
+- [ ] OpenStreetMap **ODbL** attribution preserved
 - [ ] Naming conventions followed (`snake_case` tables with `sc_` prefix; lowercase-hyphen files)

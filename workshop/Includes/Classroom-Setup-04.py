@@ -3,13 +3,18 @@
 
 # COMMAND ----------
 
+# MAGIC %md
+# MAGIC _Modified November 2026 by Hayley Horn for the TAMU Datathon: UBC campus data and references replaced with Texas A&M campus data from OpenStreetMap (ODbL)._
+
+# COMMAND ----------
+
 # DBTITLE 1,Provision this student's catalog + medallion schemas
 catalog = resolve_catalog()
 create_schemas(catalog, SCHEMAS)
 spark.sql(f"USE CATALOG `{catalog}`")
 
 # Provision the raw inputs (idempotent): generate the synthetic telemetry Bronze
-# tables and upload the real UBC open geodata to a Volume for Lab 02 to ingest.
+# tables and upload the real Texas A&M campus geodata (OpenStreetMap) to a Volume for Lab 02 to ingest.
 GEODATA_DIR = ensure_bronze_data(catalog)
 
 # Fully-qualified schema names the lab notebook can reference.

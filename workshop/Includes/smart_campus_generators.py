@@ -1,3 +1,4 @@
+# Modified November 2026 by Hayley Horn for the TAMU Datathon: UBC campus data and references replaced with Texas A&M University campus data from OpenStreetMap (ODbL).
 """
 Smart Community Testbed - Consolidated Data Generator
 ===================================================================
@@ -24,7 +25,7 @@ Tables produced:
 
 Seed: deterministic per scale, matching the reference build.
 Time window: 30 days from 2026-04-16.
-Geospatial: UBC campus bbox 49.24-49.28N / -123.27 to -123.24W.
+Geospatial: Texas A&M campus bbox 30.59-30.632N / -96.370 to -96.322W.
 """
 
 import hashlib
@@ -46,16 +47,16 @@ from pyspark.sql.types import (
 # Configuration + Constants
 # ============================================================================
 SEED = 42
-NOW = np.datetime64("2026-04-16T00:00:00")
+NOW = np.datetime64("2026-11-06T00:00:00")
 WINDOW_START = NOW - np.timedelta64(30, "D")
 WINDOW_SECONDS = int((NOW - WINDOW_START).astype("timedelta64[s]").astype(int))
 
-STUDY_CRUNCH_START = np.datetime64("2026-04-05T00:00:00")
-STUDY_CRUNCH_END = np.datetime64("2026-04-12T23:59:59")
+STUDY_CRUNCH_START = np.datetime64("2026-10-26T00:00:00")
+STUDY_CRUNCH_END = np.datetime64("2026-11-01T23:59:59")
 
-# UBC campus bounding box
-UBC_LAT_MIN, UBC_LAT_MAX = 49.2400, 49.2800
-UBC_LON_MIN, UBC_LON_MAX = -123.2700, -123.2380
+# Texas A&M campus bounding box
+CAMPUS_LAT_MIN, CAMPUS_LAT_MAX = 30.5900, 30.6320
+CAMPUS_LON_MIN, CAMPUS_LON_MAX = -96.3700, -96.3220
 
 # Full-scale row counts (before scale factor applied)
 FULL_SCALE_ACCESS_EVENTS = 600_000
@@ -67,37 +68,37 @@ FULL_SCALE_GATEWAY = 270_000
 FULL_SCALE_UDL = 13_000
 
 # Zone definitions (16 fixed zones on campus)
-UBC_ZONES = [
-    ("ZONE_01", "AMS Student Nest",             "transit",     49.2665, -123.2500),
-    ("ZONE_02", "Irving K. Barber Learning Centre","academic", 49.2670, -123.2535),
-    ("ZONE_03", "Koerner Library",              "academic",    49.2660, -123.2560),
-    ("ZONE_04", "UBC Aquatic Centre",           "recreational",49.2688, -123.2486),
-    ("ZONE_05", "UBC Bookstore",                "academic",    49.2668, -123.2510),
-    ("ZONE_06", "Thunderbird Arena",            "recreational",49.2570, -123.2445),
-    ("ZONE_07", "War Memorial Gym",             "recreational",49.2650, -123.2476),
-    ("ZONE_08", "UBC Bus Loop",                 "transit",     49.2684, -123.2483),
-    ("ZONE_09", "Wesbrook Village",             "residential", 49.2520, -123.2380),
-    ("ZONE_10", "Life Sciences Institute",      "academic",    49.2635, -123.2447),
-    ("ZONE_11", "Main Mall Central",            "outdoor",     49.2640, -123.2548),
-    ("ZONE_12", "Rose Garden",                  "outdoor",     49.2695, -123.2565),
-    ("ZONE_13", "MacInnes Field",               "outdoor",     49.2640, -123.2485),
-    ("ZONE_14", "Nitobe Memorial Garden",       "outdoor",     49.2630, -123.2580),
-    ("ZONE_15", "UBC Farm",                     "outdoor",     49.2500, -123.2380),
-    ("ZONE_16", "Student Union Blvd Transit",   "transit",     49.2695, -123.2515),
+CAMPUS_ZONES = [
+    ("ZONE_01", "Memorial Student Center",       "transit",     30.6125, -96.3418),
+    ("ZONE_02", "Sterling C. Evans Library",     "academic",    30.6169, -96.3391),
+    ("ZONE_03", "Academic Building",             "academic",    30.6158, -96.3409),
+    ("ZONE_04", "Student Recreation Center",     "recreational",30.6071, -96.3429),
+    ("ZONE_05", "Zachry Engineering Education Complex","academic",30.6214, -96.3404),
+    ("ZONE_06", "Reed Arena",                    "recreational",30.6058, -96.3461),
+    ("ZONE_07", "Kyle Field",                    "recreational",30.6099, -96.3405),
+    ("ZONE_08", "College Main Parking Garage Stop","transit",   30.6195, -96.3468),
+    ("ZONE_09", "The Commons",                   "residential", 30.6152, -96.3359),
+    ("ZONE_10", "Veterinary Teaching Hospital",  "academic",    30.6129, -96.3531),
+    ("ZONE_11", "Military Walk",                 "outdoor",     30.6151, -96.3417),
+    ("ZONE_12", "Century Tree",                  "outdoor",     30.6159, -96.3414),
+    ("ZONE_13", "Simpson Drill Field",           "outdoor",     30.6136, -96.3428),
+    ("ZONE_14", "Aggie Bonfire Memorial",        "outdoor",     30.6227, -96.3352),
+    ("ZONE_15", "Aggie Park",                    "outdoor",     30.6098, -96.3370),
+    ("ZONE_16", "White Creek Transit",           "transit",     30.6067, -96.3566),
 ]
 
 # Cell sites (10 synthetic locations)
 CELL_SITES = [
-    {"site_id": "SITE_01", "name": "UBC Bus Loop",              "latitude": 49.2695, "longitude": -123.2498},
-    {"site_id": "SITE_02", "name": "Main Mall / Buchanan",      "latitude": 49.2640, "longitude": -123.2548},
-    {"site_id": "SITE_03", "name": "Wesbrook & University",     "latitude": 49.2626, "longitude": -123.2383},
-    {"site_id": "SITE_04", "name": "Thunderbird Stadium",       "latitude": 49.2577, "longitude": -123.2445},
-    {"site_id": "SITE_05", "name": "Acadia Park",               "latitude": 49.2550, "longitude": -123.2475},
-    {"site_id": "SITE_06", "name": "UBC Hospital",              "latitude": 49.2648, "longitude": -123.2422},
-    {"site_id": "SITE_07", "name": "University Village",        "latitude": 49.2657, "longitude": -123.2350},
-    {"site_id": "SITE_08", "name": "Rose Garden / Cecil Green", "latitude": 49.2700, "longitude": -123.2578},
-    {"site_id": "SITE_09", "name": "Marine Drive Residence",    "latitude": 49.2627, "longitude": -123.2590},
-    {"site_id": "SITE_10", "name": "Totem Park",                "latitude": 49.2565, "longitude": -123.2537},
+    {"site_id": "SITE_01", "name": "MSC / Rudder Plaza",          "latitude": 30.6132, "longitude": -96.3407},
+    {"site_id": "SITE_02", "name": "Military Walk / Academic Plaza","latitude": 30.6155, "longitude": -96.3410},
+    {"site_id": "SITE_03", "name": "Kyle Field",                  "latitude": 30.6099, "longitude": -96.3405},
+    {"site_id": "SITE_04", "name": "Reed Arena / West Campus Garage","latitude": 30.6080, "longitude": -96.3455},
+    {"site_id": "SITE_05", "name": "Southside / The Commons",     "latitude": 30.6150, "longitude": -96.3355},
+    {"site_id": "SITE_06", "name": "Veterinary Campus",           "latitude": 30.6125, "longitude": -96.3535},
+    {"site_id": "SITE_07", "name": "Northgate",                   "latitude": 30.6190, "longitude": -96.3480},
+    {"site_id": "SITE_08", "name": "Zachry / Northside",          "latitude": 30.6210, "longitude": -96.3410},
+    {"site_id": "SITE_09", "name": "White Creek",                 "latitude": 30.6075, "longitude": -96.3560},
+    {"site_id": "SITE_10", "name": "Research Park",               "latitude": 30.6005, "longitude": -96.3590},
 ]
 
 USAGE_TO_CATEGORY: Dict[str, str] = {
@@ -150,7 +151,7 @@ def _polygon_centroid(geom: Dict) -> Tuple[float, float]:
     elif gtype == "MultiPolygon" and raw and raw[0]:
         coords = raw[0][0]
     if not coords:
-        return 49.2606, -123.2460
+        return 30.6125, -96.3418
     lons = [c[0] for c in coords]
     lats = [c[1] for c in coords]
     return float(sum(lats) / len(lats)), float(sum(lons) / len(lons))
@@ -161,15 +162,15 @@ def _jitter(lat: np.ndarray, lon: np.ndarray, rng: np.random.Generator,
     """Add spatial jitter to coordinates."""
     dlat = rng.normal(0, scale_m / 111_000.0, size=len(lat))
     dlon = rng.normal(0, scale_m / 73_000.0, size=len(lon))
-    out_lat = np.clip(lat + dlat, UBC_LAT_MIN, UBC_LAT_MAX)
-    out_lon = np.clip(lon + dlon, UBC_LON_MIN, UBC_LON_MAX)
+    out_lat = np.clip(lat + dlat, CAMPUS_LAT_MIN, CAMPUS_LAT_MAX)
+    out_lon = np.clip(lon + dlon, CAMPUS_LON_MIN, CAMPUS_LON_MAX)
     return out_lat.round(6), out_lon.round(6)
 
 
 def _distance_m(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
     """Approximate distance in meters between two lat/lon points."""
     m_per_lat = 111_132.954
-    m_per_lon = 73_000.0  # approx at UBC latitude
+    m_per_lon = 95_800.0  # approx at Texas A&M latitude
     dy = (lat1 - lat2) * m_per_lat
     dx = (lon1 - lon2) * m_per_lon
     return math.hypot(dx, dy)
@@ -221,8 +222,8 @@ def _load_buildings(geojson_path: Path) -> List[Dict]:
 
 
 def _load_residences(geojson_path: Path) -> List[Dict]:
-    """Load 38 residence complexes from ubcv_complexes.geojson."""
-    complexes_path = geojson_path.parent / "ubcv_complexes.geojson"
+    """Load 38 residence complexes from tamu_complexes.geojson."""
+    complexes_path = geojson_path.parent / "tamu_complexes.geojson"
     if not complexes_path.exists():
         return []
     with complexes_path.open("r", encoding="utf-8") as f:
@@ -266,9 +267,9 @@ def generate_telemetry(spark, catalog: str, schema: str, scale: float = 0.15,
     Generate the 9 synthetic *telemetry* Bronze tables for the smart-community testbed.
 
     The two dimension tables (dim_buildings, dim_zones) are intentionally NOT
-    produced here — students build those from the real UBC open geodata in Lab 02.
-    Building references in the telemetry (bldg_uid = VBL10xxx, name, category,
-    coordinates) are drawn from the same ubcv_buildings.geojson, so they join
+    produced here — students build those from the real Texas A&M campus geodata (OpenStreetMap) in Lab 02.
+    Building references in the telemetry (bldg_uid = TBL10xxx, name, category,
+    coordinates) are drawn from the same tamu_buildings.geojson, so they join
     cleanly to the dim_buildings the students ingest.
 
     Args:
@@ -298,7 +299,7 @@ def generate_telemetry(spark, catalog: str, schema: str, scale: float = 0.15,
     else:
         geojson_dir = Path(geojson_dir)
 
-    buildings_geojson = geojson_dir / "ubcv_buildings.geojson"
+    buildings_geojson = geojson_dir / "tamu_buildings.geojson"
     if not buildings_geojson.exists():
         raise FileNotFoundError(f"GeoJSON not found: {buildings_geojson}")
 
@@ -415,8 +416,8 @@ def _gen_dim_buildings(residences: List[Dict], rng: np.random.Generator) -> pd.D
             "bcom_uid": r.get("bcom_uid", ""),
             "building_name": r.get("name", ""),
             "address": None,
-            "latitude": float(r.get("latitude", 49.2606)),
-            "longitude": float(r.get("longitude", -123.2460)),
+            "latitude": float(r.get("latitude", 30.6125)),
+            "longitude": float(r.get("longitude", -96.3418)),
             "n_units": int(r.get("estimated_units", 100)),
             "complex_type": "residential",
             "year_built": 2000 + rng.integers(0, 20),
@@ -429,7 +430,7 @@ def _gen_dim_zones() -> pd.DataFrame:
     rows = [
         {"zone_id": z[0], "zone_name": z[1], "zone_type": z[2],
          "latitude": z[3], "longitude": z[4]}
-        for z in UBC_ZONES
+        for z in CAMPUS_ZONES
     ]
     return pd.DataFrame(rows)
 
@@ -958,27 +959,27 @@ def _schema_udl_campus_metrics() -> StructType:
 # ============================================================================
 
 def _default_residences() -> List[Dict]:
-    """Fallback residences if ubcv_complexes.geojson unavailable."""
+    """Fallback residences if tamu_complexes.geojson unavailable."""
     return [
-        {"bcom_uid": "VBC10018", "name": "Walter H. Gage Residence", "usage": "StudentHousing",
-         "gba": 46115, "latitude": 49.26972, "longitude": -123.249256, "estimated_units": 615},
-        {"bcom_uid": "VBC10011", "name": "Totem Park Residence", "usage": "StudentHousing",
-         "gba": 83656, "latitude": 49.2585, "longitude": -123.252489, "estimated_units": 1115},
-        {"bcom_uid": "VBC10019", "name": "Place Vanier Residence", "usage": "StudentHousing",
-         "gba": 35552, "latitude": 49.264456, "longitude": -123.258878, "estimated_units": 474},
-        {"bcom_uid": "VBC10023", "name": "Ponderosa Commons", "usage": "Commons",
-         "gba": 55655, "latitude": 49.263797, "longitude": -123.255291, "estimated_units": 742},
-        {"bcom_uid": "VBC10017", "name": "Marine Drive Residence", "usage": "StudentHousing",
-         "gba": 59324, "latitude": 49.261477, "longitude": -123.255981, "estimated_units": 791},
-        {"bcom_uid": "VBC10021", "name": "Brock Commons", "usage": "Commons",
-         "gba": 46569, "latitude": 49.26931, "longitude": -123.252893, "estimated_units": 621},
-        {"bcom_uid": "VBC10010", "name": "Thunderbird Residence", "usage": "StudentHousing",
-         "gba": 42208, "latitude": 49.259615, "longitude": -123.248931, "estimated_units": 563},
-        {"bcom_uid": "VBC10030", "name": "Fairview Crescent Residence", "usage": "StudentHousing",
-         "gba": 20070, "latitude": 49.263197, "longitude": -123.239722, "estimated_units": 268},
+        {"bcom_uid": "TBC10001", "name": "Hart Residence Hall", "usage": "StudentHousing",
+         "gba": 4819, "latitude": 30.614351, "longitude": -96.34057, "estimated_units": 120},
+        {"bcom_uid": "TBC10002", "name": "Walton Residence Hall", "usage": "StudentHousing",
+         "gba": 5260, "latitude": 30.616907, "longitude": -96.345324, "estimated_units": 131},
+        {"bcom_uid": "TBC10003", "name": "Hughes Residence Hall", "usage": "StudentHousing",
+         "gba": 3142, "latitude": 30.615462, "longitude": -96.345181, "estimated_units": 78},
+        {"bcom_uid": "TBC10004", "name": "Appelt Residence Hall", "usage": "StudentHousing",
+         "gba": 7645, "latitude": 30.614301, "longitude": -96.335464, "estimated_units": 191},
+        {"bcom_uid": "TBC10005", "name": "Neeley Residence Hall", "usage": "StudentHousing",
+         "gba": 7201, "latitude": 30.617938, "longitude": -96.344509, "estimated_units": 180},
+        {"bcom_uid": "TBC10006", "name": "Clements Residence Hall", "usage": "StudentHousing",
+         "gba": 6147, "latitude": 30.614414, "longitude": -96.345571, "estimated_units": 153},
+        {"bcom_uid": "TBC10007", "name": "Haas Residence Hall", "usage": "StudentHousing",
+         "gba": 6911, "latitude": 30.615891, "longitude": -96.344655, "estimated_units": 172},
+        {"bcom_uid": "TBC10008", "name": "Schuhmacher Residence Hall", "usage": "StudentHousing",
+         "gba": 3555, "latitude": 30.617127, "longitude": -96.345559, "estimated_units": 88},
     ] + [
-        {"bcom_uid": f"VBC_OTHER_{i}", "name": f"Building {i}", "usage": "Housing",
-         "gba": 10000 + i*100, "latitude": 49.25 + i*0.001, "longitude": -123.24 - i*0.001,
+        {"bcom_uid": f"TBC_OTHER_{i}", "name": f"Building {i}", "usage": "Housing",
+         "gba": 10000 + i*100, "latitude": 30.605 + i*0.0005, "longitude": -96.345 - i*0.0005,
          "estimated_units": 100 + i*10}
         for i in range(30)
     ]
