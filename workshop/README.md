@@ -15,7 +15,7 @@ their own data, with an inline **Ask Genie** panel.
 | 02 | `02 - Hands On - Clean & Transform` | Ingest the Texas A&M campus geodata (Volume → `dim_buildings` + `dim_zones`), then clean all Bronze → Silver |
 | 03 | `03 - Hands On - Visualize with AI-BI` | AI/BI dashboard (transit + security views) |
 | 04 | `04 - Hands On - Build Serving Tables` | Gold serving tables (`building_activity`, `cell_health`) |
-| 05 | `05 - Hands On - Create a Genie Space` | Natural-language Q&A space + captured Space ID |
+| 05 | `05 - Hands On - Create a Genie Agent` | Natural-language Q&A agent + captured agent ID |
 | 06 | `06 - Hands On - Deploy the App` | Live single-tab campus-map app on their data |
 
 Open `00 - Course Overview` first for orientation, then run **labs 01 → 06 in order**. Each
@@ -47,7 +47,7 @@ workshop/
 ## Requirements
 
 - A lab / sandbox workspace (Serverless), Unity Catalog enabled, with permission to create a catalog.
-- Not for production workspaces. The setup creates catalogs, schemas, tables, a Genie space, and an App.
+- Not for production workspaces. The setup creates catalogs, schemas, tables, a Genie agent, and an App.
 
 ## Tuning
 

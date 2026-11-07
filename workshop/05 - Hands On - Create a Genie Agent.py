@@ -9,21 +9,21 @@
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC # Lab 05: Create a Genie Space
+# MAGIC # Lab 05: Create a Genie Agent
 # MAGIC
 # MAGIC **Genie** lets anyone ask questions of governed data in plain English and get back SQL,
-# MAGIC tables, and charts. You'll point a Genie space at your Silver + Gold tables, teach it a
-# MAGIC little context, and ask transit & security questions, then capture its **Space ID** so
+# MAGIC tables, and charts. You'll point a Genie agent at your Silver + Gold tables, teach it a
+# MAGIC little context, and ask transit & security questions, then capture its **agent ID** so
 # MAGIC your app (Lab 06) can use it.
 # MAGIC
 # MAGIC ## Objectives
-# MAGIC - Create a **Genie space** scoped to your workshop tables
+# MAGIC - Create a **Genie agent** scoped to your workshop tables
 # MAGIC - Improve accuracy with **instructions** and **sample questions**
 # MAGIC - Ask natural-language questions and read the generated SQL
-# MAGIC - Capture the **Space ID** for Lab 06
+# MAGIC - Capture the **agent ID** for Lab 06
 # MAGIC
 # MAGIC ## Agenda
-# MAGIC **A.** Setup · **B.** Create the space (UI) · **C.** Add context · **D.** Ask questions · **E.** Capture the Space ID · **F.** 🎯 Your turn
+# MAGIC **A.** Setup · **B.** Create the agent (UI) · **C.** Add context · **D.** Ask questions · **E.** Capture the agent ID · **F.** 🎯 Your turn
 
 # COMMAND ----------
 
@@ -37,18 +37,18 @@
 
 # COMMAND ----------
 
-print("Point your Genie space at these schemas:")
+print("Point your Genie agent at these schemas:")
 print("  Silver:", DA_SILVER)
 print("  Gold:  ", DA_GOLD)
 
 # COMMAND ----------
 
 # MAGIC %md-sandbox
-# MAGIC ## B. Create the space (in the UI)
+# MAGIC ## B. Create the agent (in the UI)
 # MAGIC
 # MAGIC <div style="border-left:4px solid #1976d2; background:#e3f2fd; padding:14px 18px; border-radius:4px; margin:12px 0; color:#0d47a1;">
 # MAGIC <ol style="margin:0; padding-left:20px; line-height:1.8;">
-# MAGIC   <li>Left sidebar → <strong>Genie</strong> → <strong>New</strong>.</li>
+# MAGIC   <li>Left sidebar → <strong>Genie Agents</strong> → <strong>New</strong>.</li>
 # MAGIC   <li>Name it <strong>Smart Campus Genie</strong>.</li>
 # MAGIC   <li>Choose your <strong>SQL warehouse</strong> (Serverless).</li>
 # MAGIC   <li>Add tables from your <strong>Gold</strong> schema first (<code>building_activity</code> and
@@ -65,7 +65,7 @@ print("  Gold:  ", DA_GOLD)
 # MAGIC %md-sandbox
 # MAGIC ## C. Add context (instructions + sample questions)
 # MAGIC
-# MAGIC In the space's **Instructions** panel, paste something like this so Genie understands the domain:
+# MAGIC In the agent's **Instructions** panel, paste something like this so Genie understands the domain:
 # MAGIC
 # MAGIC <div style="border:1px solid #DCE0E2; border-radius:8px; background:#F9F7F4; padding:14px 18px; margin:12px 0; color:#1B3139; font-size:0.92rem;">
 # MAGIC This data is a synthetic smart-community testbed for the Texas A&M campus in College Station.
@@ -88,24 +88,24 @@ print("  Gold:  ", DA_GOLD)
 
 # MAGIC %md
 # MAGIC ## D. Ask questions
-# MAGIC Open the space and try the sample questions plus your own. For each answer, expand the
+# MAGIC Open the agent and try the sample questions plus your own. For each answer, expand the
 # MAGIC **generated SQL**. Comparing Genie's SQL to what you'd write is the fastest way to trust it.
 # MAGIC Try a follow-up like *"...only for residential buildings"* to see it keep context.
 
 # COMMAND ----------
 
 # MAGIC %md-sandbox
-# MAGIC ## E. Capture the Space ID
+# MAGIC ## E. Capture the agent ID
 # MAGIC
 # MAGIC <div style="border-left:4px solid #FFAB00; background:#FFF8E1; padding:14px 18px; border-radius:4px; margin:12px 0; color:#5D4037;">
-# MAGIC Your app in <strong>Lab 06</strong> needs this space's ID. Look at the URL of your open space:
+# MAGIC Your app in <strong>Lab 06</strong> needs this agent's ID. Look at the URL of your open agent:
 # MAGIC <br/><code>https://&lt;workspace&gt;/genie/rooms/<strong>01efab...</strong></code>. The part after
-# MAGIC <code>/rooms/</code> is the Space ID. Copy it and paste it below, then run the cell to save it.
+# MAGIC <code>/rooms/</code> is the agent ID. Copy it and paste it below, then run the cell to save it.
 # MAGIC </div>
 
 # COMMAND ----------
 
-dbutils.widgets.text("genie_space_id", "", "Your Genie Space ID (from the space URL)")
+dbutils.widgets.text("genie_space_id", "", "Your Genie agent ID (from the agent URL)")
 genie_space_id = dbutils.widgets.get("genie_space_id").strip()
 
 if genie_space_id:
@@ -114,10 +114,10 @@ if genie_space_id:
     spark.createDataFrame([(genie_space_id,)], "genie_space_id string").write.mode("overwrite").saveAsTable(
         f"{DA_CONFIG}.genie"
     )
-    print(f"✅ Saved Genie Space ID: {genie_space_id}")
+    print(f"✅ Saved Genie agent ID: {genie_space_id}")
     print(f"   Lab 06 will read it from {DA_CONFIG}.genie")
 else:
-    print("ℹ️ Paste your Space ID into the widget above and re-run this cell.")
+    print("ℹ️ Paste your agent ID into the widget above and re-run this cell.")
 
 # COMMAND ----------
 
@@ -125,7 +125,7 @@ else:
 # MAGIC ### F. 🎯 Your turn
 # MAGIC <div style="border-left:4px solid #00A972; background:#E8F5E9; padding:14px 18px; border-radius:4px; margin:12px 0; color:#1B3139;">
 # MAGIC Ask Genie a question it gets <em>wrong</em> or vague, then improve it: add a clarifying
-# MAGIC <strong>instruction</strong> or a <strong>SQL example</strong> to the space and re-ask. Getting Genie
+# MAGIC <strong>instruction</strong> or a <strong>SQL example</strong> to the agent and re-ask. Getting Genie
 # MAGIC from "almost" to "correct" by adding context is the core skill for your hackathon demo.
 # MAGIC <br/><br/><strong>💡 Hint:</strong> Try a question with a fuzzy word, such as <em>"Which buildings are busiest?"</em> Busiest by what: people, devices or door events?
 # MAGIC Add an instruction that defines it, for example <em>"Busiest means the most access events,"</em> then ask again and compare the SQL.
@@ -135,9 +135,9 @@ else:
 
 # MAGIC %md
 # MAGIC ### ✅ Recap
-# MAGIC You created and tuned a **Genie space** over your governed tables and captured its Space ID.
+# MAGIC You created and tuned a **Genie agent** over your governed tables and captured its agent ID.
 # MAGIC In **Lab 06** you deploy the campus-map **app**, wired to your Silver tables and this Genie
-# MAGIC space, so users can explore the map *and* ask it questions.
+# MAGIC agent, so users can explore the map *and* ask it questions.
 
 # COMMAND ----------
 

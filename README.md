@@ -32,7 +32,7 @@ or a **Vocareum** lab account. Specifically:
 - **Genie** and **Databricks Apps** enabled
 
 > Don't run this in a shared/production workspace. The labs create catalogs, schemas,
-> tables, a Genie space, and an App under your user.
+> tables, a Genie agent, and an App under your user.
 
 ---
 
@@ -62,14 +62,14 @@ or a **Vocareum** lab account. Specifically:
 | 02 | Ingest Geodata & Clean | Load real TAMU map data → **Silver** tables |
 | 03 | Visualize with AI/BI | An **AI/BI dashboard** (transit + security) |
 | 04 | Build Serving Tables | **Gold** tables for the app + Genie |
-| 05 | Create a Genie Space | Ask your data questions in plain English |
+| 05 | Create a Genie Agent | Ask your data questions in plain English |
 | 06 | Deploy the App | Your live campus-map **Databricks App** |
 
 ---
 
 ## 📎 Notes
 
-- **Lab 05 (Genie)** has a couple of UI steps: you create the Genie space in the UI and
+- **Lab 05 (Genie)** has a couple of UI steps: you create the Genie agent in the UI and
   paste its ID into Lab 06. Everything else runs from the notebooks.
 - The full course lives in [`workshop/`](workshop/). See its
   [README](workshop/README.md) for the folder layout.

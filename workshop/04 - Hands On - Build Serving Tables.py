@@ -178,7 +178,7 @@ spark.sql(f"SHOW TABLES IN {DA_GOLD}").display()
 # MAGIC %md
 # MAGIC ### ✅ Recap
 # MAGIC You built **Gold** serving tables (`building_activity`, `cell_health`) that fuse multiple
-# MAGIC datasets into one tidy row per entity. In **Lab 05** you'll point a **Genie space** at your
+# MAGIC datasets into one tidy row per entity. In **Lab 05** you'll point a **Genie agent** at your
 # MAGIC Silver + Gold tables and ask questions in plain English.
 
 # COMMAND ----------

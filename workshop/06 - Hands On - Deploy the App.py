@@ -13,10 +13,10 @@
 # MAGIC
 # MAGIC The finale: a live **Databricks App**: an interactive TAMU campus map over *your* data,
 # MAGIC with a dropdown of dataset views and an inline **Ask Genie** panel. It's backed by your
-# MAGIC **Silver** tables and the **Genie space** from Lab 05. This is your hackathon starting point.
+# MAGIC **Silver** tables and the **Genie agent** from Lab 05. This is your hackathon starting point.
 # MAGIC
 # MAGIC ## Objectives
-# MAGIC - Point the bundled app at **your** catalog, Silver schema, warehouse, and Genie space
+# MAGIC - Point the bundled app at **your** catalog, Silver schema, warehouse, and Genie agent
 # MAGIC - **Deploy** it to Databricks Apps and open the live URL
 # MAGIC
 # MAGIC ## Agenda
@@ -26,7 +26,7 @@
 
 # MAGIC %md-sandbox
 # MAGIC ## A. Setup
-# MAGIC <div style="border-left:4px solid #FF3621; background:#FFF0EE; padding:12px 16px; border-radius:4px; margin:12px 0; color:#1B3139;">Attach <strong>Serverless</strong> and run setup. It creates an empty App for you and copies the app source into your Workspace home. Needs your Silver tables (Lab 02) and Genie Space ID (Lab 05).</div>
+# MAGIC <div style="border-left:4px solid #FF3621; background:#FFF0EE; padding:12px 16px; border-radius:4px; margin:12px 0; color:#1B3139;">Attach <strong>Serverless</strong> and run setup. It creates an empty App for you and copies the app source into your Workspace home. Needs your Silver tables (Lab 02) and Genie agent ID (Lab 05).</div>
 
 # COMMAND ----------
 
@@ -39,14 +39,14 @@
 # MAGIC A **FastAPI + React** app (source now in your home at the path shown above):
 # MAGIC - `server/` queries your Silver tables through a SQL warehouse and calls the Genie API
 # MAGIC - `frontend/dist/` is the pre-built campus-map UI (Leaflet), so no build step needed
-# MAGIC - `app.yaml` holds the config the app reads at runtime (catalog, schema, warehouse, Genie space)
+# MAGIC - `app.yaml` holds the config the app reads at runtime (catalog, schema, warehouse, Genie agent)
 
 # COMMAND ----------
 
 # MAGIC %md
 # MAGIC ## C. Configure the app
 # MAGIC We rewrite `app.yaml` so the app reads *your* data. We pick a Serverless SQL warehouse in
-# MAGIC this workspace, read back your Genie Space ID (saved in Lab 05), and template the file.
+# MAGIC this workspace, read back your Genie agent ID (saved in Lab 05), and template the file.
 
 # COMMAND ----------
 
@@ -59,23 +59,23 @@ print(f"Using warehouse: {chosen.name} ({WAREHOUSE_ID})")
 
 # COMMAND ----------
 
-# DBTITLE 1,Read back the Genie Space ID saved in Lab 05
+# DBTITLE 1,Read back the Genie agent ID saved in Lab 05
 try:
     GENIE_SPACE_ID = spark.table(f"{DA_CONFIG}.genie").first()["genie_space_id"]
-    print(f"Genie Space ID from Lab 05: {GENIE_SPACE_ID}")
+    print(f"Genie agent ID from Lab 05: {GENIE_SPACE_ID}")
 except Exception:
     GENIE_SPACE_ID = ""
-    print("⚠️ No saved Genie Space ID found. Complete Lab 05 section E, or paste it in the widget below.")
+    print("⚠️ No saved Genie agent ID found. Complete Lab 05 section E, or paste it in the widget below.")
 
-dbutils.widgets.text("genie_space_id_override", "", "Genie Space ID (optional override)")
+dbutils.widgets.text("genie_space_id_override", "", "Genie agent ID (optional override)")
 if dbutils.widgets.get("genie_space_id_override").strip():
     GENIE_SPACE_ID = dbutils.widgets.get("genie_space_id_override").strip()
 
 if GENIE_SPACE_ID:
-    print(f"✅ Ask Genie will be enabled for space {GENIE_SPACE_ID}")
+    print(f"✅ Ask Genie will be enabled for agent {GENIE_SPACE_ID}")
 else:
     print("⚠️ Ask Genie will be DISABLED. The map still works, but the Ask Genie panel will")
-    print("   report 'not configured'. Finish Lab 05, or paste your Space ID in the widget above,")
+    print("   report 'not configured'. Finish Lab 05, or paste your agent ID in the widget above,")
     print("   then re-run this notebook to enable it.")
 
 # COMMAND ----------
@@ -110,7 +110,7 @@ print(open(app_yaml_path).read())
 # MAGIC <div style="border-left:4px solid #FFAB00; background:#FFF8E1; padding:12px 16px; border-radius:4px; margin:12px 0; color:#5D4037;">
 # MAGIC <strong>Grant the app access.</strong> The app runs as its own service principal (shown in setup).
 # MAGIC It needs <code>USE CATALOG</code> + <code>USE SCHEMA</code> + <code>SELECT</code> on your Silver and Gold schemas,
-# MAGIC <code>CAN_USE</code> on the warehouse, and <code>CAN_RUN</code> on your Genie space. The cell below grants
+# MAGIC <code>CAN_USE</code> on the warehouse, and <code>CAN_RUN</code> on your Genie agent. The cell below grants
 # MAGIC the UC privileges; grant the warehouse + Genie permissions in their UIs if the app can't reach them.
 # MAGIC </div>
 
@@ -156,8 +156,8 @@ except Exception as e:
 
 # COMMAND ----------
 
-# DBTITLE 1,Grant the app's service principal CAN_RUN on the Genie space
-# The app runs as its own service principal; without CAN_RUN on the Genie space
+# DBTITLE 1,Grant the app's service principal CAN_RUN on the Genie agent
+# The app runs as its own service principal; without CAN_RUN on the Genie agent
 # the "Ask Genie" panel fails with "Genie space not configured — contact admin".
 if GENIE_SPACE_ID:
     try:
@@ -168,12 +168,12 @@ if GENIE_SPACE_ID:
                 {"service_principal_name": my_app_sp, "permission_level": "CAN_RUN"}
             ]},
         )
-        print(f"✅ Granted CAN_RUN on Genie space {GENIE_SPACE_ID} to the app service principal.")
+        print(f"✅ Granted CAN_RUN on Genie agent {GENIE_SPACE_ID} to the app service principal.")
     except Exception as e:
         print(f"⚠️ Could not grant Genie access automatically: {e}\n"
-              f"   Grant CAN_RUN on the Genie space to {my_app_sp} in the Genie UI.")
+              f"   Grant CAN_RUN on the Genie agent to {my_app_sp} in the Genie UI.")
 else:
-    print("ℹ️ No Genie space id set, so skipping Genie grant. (Complete Lab 05 first.)")
+    print("ℹ️ No Genie agent ID set, so skipping Genie grant. (Complete Lab 05 first.)")
 
 # COMMAND ----------
 

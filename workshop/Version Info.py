@@ -10,7 +10,7 @@
 # MAGIC | **Data attribution** | Building footprints from **OpenStreetMap** contributors, ODbL. All telemetry is synthetic demo data. |
 # MAGIC
 # MAGIC Labs (run in order): `01` Explore & Profile → `02` Ingest Geodata & Clean → `03` Visualize with
-# MAGIC AI/BI → `04` Build Serving Tables → `05` Create a Genie Space → `06` Deploy the App.
+# MAGIC AI/BI → `04` Build Serving Tables → `05` Create a Genie Agent → `06` Deploy the App.
 
 # COMMAND ----------
 

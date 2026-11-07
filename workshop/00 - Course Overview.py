@@ -23,7 +23,7 @@
 # MAGIC
 # MAGIC You will generate a realistic dataset, clean and conform it with the **medallion
 # MAGIC architecture**, explore it with **AI/BI dashboards**, ask questions of it in plain
-# MAGIC English with a **Genie space**, and finish by deploying a live **Databricks App**:
+# MAGIC English with a **Genie agent**, and finish by deploying a live **Databricks App**:
 # MAGIC an interactive campus map over your own data that you can extend for your hackathon
 # MAGIC project.
 # MAGIC
@@ -34,7 +34,7 @@
 # MAGIC - Generate and land synthetic data as **Bronze** Delta tables in Unity Catalog
 # MAGIC - Clean, type, and conform raw data into a trustworthy **Silver** layer with SQL and PySpark
 # MAGIC - Build **Gold** serving tables and an **AI/BI dashboard** for transit & security signals
-# MAGIC - Create and configure a **Genie space** for natural-language Q&A over your data
+# MAGIC - Create and configure a **Genie agent** for natural-language Q&A over your data
 # MAGIC - Deploy a **Databricks App** (interactive campus map) backed by your Silver tables and Genie
 
 # COMMAND ----------
@@ -57,7 +57,7 @@
 # MAGIC
 # MAGIC <div style="border-left: 4px solid #f44336; background: #ffebee; padding: 14px 18px; border-radius: 4px; margin: 16px 0;">
 # MAGIC <strong style="display:block; color:#c62828; margin-bottom:6px; font-size:1.05em;">Do not run in a production workspace</strong>
-# MAGIC <div style="color:#333;">The setup scripts create catalogs, schemas, tables, a Genie space, and an App.
+# MAGIC <div style="color:#333;">The setup scripts create catalogs, schemas, tables, a Genie agent, and an App.
 # MAGIC Use only the lab / sandbox workspace provided for this event.</div>
 # MAGIC </div>
 
@@ -83,7 +83,7 @@
 # MAGIC     <tr style="background: #fbfaf8;"><td style="padding:8px 14px;border:1px solid #EEEDE9;text-align:center;font-weight:700;color:#1B5162;">02</td><td style="padding:8px 14px;border:1px solid #EEEDE9;text-align:center;"><span style="background:#fff3e0;color:#e65100;padding:2px 8px;border-radius:4px;font-weight:600;">Lab</span></td><td style="padding:8px 14px;border:1px solid #EEEDE9;">Ingest Geodata &amp; Clean</td><td style="padding:8px 14px;border:1px solid #EEEDE9;color:#5B6B73;">dim tables from geodata + Silver</td></tr>
 # MAGIC     <tr style="background: white;"><td style="padding:8px 14px;border:1px solid #EEEDE9;text-align:center;font-weight:700;color:#1B5162;">03</td><td style="padding:8px 14px;border:1px solid #EEEDE9;text-align:center;"><span style="background:#fff3e0;color:#e65100;padding:2px 8px;border-radius:4px;font-weight:600;">Lab</span></td><td style="padding:8px 14px;border:1px solid #EEEDE9;">Visualize with AI/BI</td><td style="padding:8px 14px;border:1px solid #EEEDE9;color:#5B6B73;">AI/BI dashboard</td></tr>
 # MAGIC     <tr style="background: #fbfaf8;"><td style="padding:8px 14px;border:1px solid #EEEDE9;text-align:center;font-weight:700;color:#1B5162;">04</td><td style="padding:8px 14px;border:1px solid #EEEDE9;text-align:center;"><span style="background:#fff3e0;color:#e65100;padding:2px 8px;border-radius:4px;font-weight:600;">Lab</span></td><td style="padding:8px 14px;border:1px solid #EEEDE9;">Build Serving Tables</td><td style="padding:8px 14px;border:1px solid #EEEDE9;color:#5B6B73;">Gold aggregates for app &amp; Genie</td></tr>
-# MAGIC     <tr style="background: white;"><td style="padding:8px 14px;border:1px solid #EEEDE9;text-align:center;font-weight:700;color:#1B5162;">05</td><td style="padding:8px 14px;border:1px solid #EEEDE9;text-align:center;"><span style="background:#fff3e0;color:#e65100;padding:2px 8px;border-radius:4px;font-weight:600;">Lab</span></td><td style="padding:8px 14px;border:1px solid #EEEDE9;">Create a Genie Space</td><td style="padding:8px 14px;border:1px solid #EEEDE9;color:#5B6B73;">Natural-language Q&amp;A space</td></tr>
+# MAGIC     <tr style="background: white;"><td style="padding:8px 14px;border:1px solid #EEEDE9;text-align:center;font-weight:700;color:#1B5162;">05</td><td style="padding:8px 14px;border:1px solid #EEEDE9;text-align:center;"><span style="background:#fff3e0;color:#e65100;padding:2px 8px;border-radius:4px;font-weight:600;">Lab</span></td><td style="padding:8px 14px;border:1px solid #EEEDE9;">Create a Genie Agent</td><td style="padding:8px 14px;border:1px solid #EEEDE9;color:#5B6B73;">Natural-language Q&amp;A space</td></tr>
 # MAGIC     <tr style="background: #fbfaf8;"><td style="padding:8px 14px;border:1px solid #EEEDE9;text-align:center;font-weight:700;color:#1B5162;">06</td><td style="padding:8px 14px;border:1px solid #EEEDE9;text-align:center;"><span style="background:#fff3e0;color:#e65100;padding:2px 8px;border-radius:4px;font-weight:600;">Lab</span></td><td style="padding:8px 14px;border:1px solid #EEEDE9;">Deploy the App</td><td style="padding:8px 14px;border:1px solid #EEEDE9;color:#5B6B73;">Live single-tab campus-map app</td></tr>
 # MAGIC   </tbody>
 # MAGIC </table>
