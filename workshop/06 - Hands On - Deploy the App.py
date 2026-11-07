@@ -109,18 +109,21 @@ print(open(app_yaml_path).read())
 # MAGIC %md-sandbox
 # MAGIC <div style="border-left:4px solid #FFAB00; background:#FFF8E1; padding:12px 16px; border-radius:4px; margin:12px 0; color:#5D4037;">
 # MAGIC <strong>Grant the app access.</strong> The app runs as its own service principal (shown in setup).
-# MAGIC It needs <code>USE CATALOG</code> + <code>USE SCHEMA</code> + <code>SELECT</code> on your Silver schema,
+# MAGIC It needs <code>USE CATALOG</code> + <code>USE SCHEMA</code> + <code>SELECT</code> on your Silver and Gold schemas,
 # MAGIC <code>CAN_USE</code> on the warehouse, and <code>CAN_RUN</code> on your Genie space. The cell below grants
 # MAGIC the UC privileges; grant the warehouse + Genie permissions in their UIs if the app can't reach them.
 # MAGIC </div>
 
 # COMMAND ----------
 
-# DBTITLE 1,Grant the app's service principal read access to your Silver schema
+# DBTITLE 1,Grant the app's service principal read access to your Silver and Gold schemas
 for stmt in [
     f"GRANT USE CATALOG ON CATALOG `{DA_CATALOG}` TO `{my_app_sp}`",
     f"GRANT USE SCHEMA ON SCHEMA `{DA_CATALOG}`.`{SILVER_SCHEMA}` TO `{my_app_sp}`",
     f"GRANT SELECT ON SCHEMA `{DA_CATALOG}`.`{SILVER_SCHEMA}` TO `{my_app_sp}`",
+    # Ask Genie in the app queries your Gold tables (Lab 04), so the app needs Gold too.
+    f"GRANT USE SCHEMA ON SCHEMA `{DA_CATALOG}`.`{GOLD_SCHEMA}` TO `{my_app_sp}`",
+    f"GRANT SELECT ON SCHEMA `{DA_CATALOG}`.`{GOLD_SCHEMA}` TO `{my_app_sp}`",
 ]:
     try:
         spark.sql(stmt)

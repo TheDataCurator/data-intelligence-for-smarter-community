@@ -98,7 +98,11 @@ def _parse_message(space_id: str, msg: Dict[str, Any]) -> Dict[str, Any]:
         "error": None,
     }
     if out["status"] in {"FAILED", "CANCELLED"}:
-        out["error"] = msg.get("error") or msg.get("message", "Genie returned no answer.")
+        err = msg.get("error") or msg.get("message", "Genie returned no answer.")
+        # Genie returns error as an object ({"error": ..., "type": ...}); the UI needs text.
+        if isinstance(err, dict):
+            err = err.get("error") or err.get("message") or str(err)
+        out["error"] = str(err)
 
     # content (text response): in new API it's `content` (user message) — but the assistant
     # response is inside `attachments`.
