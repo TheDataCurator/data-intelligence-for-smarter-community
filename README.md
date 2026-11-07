@@ -2,10 +2,10 @@
 
 A hands-on Databricks accelerator that shows how a **telco provider** can turn network
 signal + campus/city IoT data into governed **smart-community intelligence** on the
-Databricks Data Intelligence Platform — an alternative to communities building an in-house
+Databricks Data Intelligence Platform, as an alternative to communities building an in-house
 data lake. You start with synthetic **smart-community data** (cellular-tower + IoT signals)
-and take it end-to-end — **generate → clean → visualize → ask in plain English → ship an
-app** — building toward **transit**, **congestion**, and **security** use cases.
+and take it end-to-end (**generate → clean → visualize → ask in plain English → ship an
+app**), building toward **transit**, **congestion**, and **security** use cases.
 
 The **Texas A&M campus in College Station** is the testbed: telemetry is synthetic, but it's grounded on
 real Texas A&M building footprints so the map and insights feel real. By the end you'll have a
@@ -24,14 +24,14 @@ The full **Data Intelligence Platform loop** on smart-community data:
 
 ## ✅ Prerequisites
 
-You need a **Databricks workspace where you are an admin** — e.g. **Databricks Free Edition**
+You need a **Databricks workspace where you are an admin**, e.g. **Databricks Free Edition**
 or a **Vocareum** lab account. Specifically:
 
 - **Serverless** compute available (SQL warehouse + serverless notebooks)
 - Permission to **create a Unity Catalog catalog** (the setup creates `labuser_<your-username>`)
 - **Genie** and **Databricks Apps** enabled
 
-> Don't run this in a shared/production workspace — the labs create catalogs, schemas,
+> Don't run this in a shared/production workspace. The labs create catalogs, schemas,
 > tables, a Genie space, and an App under your user.
 
 ---
@@ -69,19 +69,19 @@ or a **Vocareum** lab account. Specifically:
 
 ## 📎 Notes
 
-- **Lab 05 (Genie)** has a couple of UI steps — you create the Genie space in the UI and
+- **Lab 05 (Genie)** has a couple of UI steps: you create the Genie space in the UI and
   paste its ID into Lab 06. Everything else runs from the notebooks.
-- The full course lives in [`workshop/`](workshop/) — see its
+- The full course lives in [`workshop/`](workshop/). See its
   [README](workshop/README.md) for the folder layout.
 
 ## Data
 
-- **Synthetic telco + IoT telemetry** — generated at runtime by
+- **Synthetic telco + IoT telemetry**: generated at runtime by
   [`workshop/Includes/smart_campus_generators.py`](workshop/Includes/smart_campus_generators.py):
   access events, device health, mobility/presence, wireless cells / coverage / KPIs, gateway
-  connectivity, and daily campus metrics. Modeled on publicly-known patterns — **not derived
+  connectivity, and daily campus metrics. Modeled on publicly-known patterns, **not derived
   from any carrier's proprietary data**. Uses the example test PLMN `001-01`.
-- **Real geospatial data** — building footprints and neighbourhoods from **OpenStreetMap**
+- **Real geospatial data**: building footprints and neighbourhoods from **OpenStreetMap**
   contributors, used under the **Open Database License (ODbL)**. The neighborhood zones are approximate areas drawn for this demo, not official Texas A&M boundaries.
   This is the only real data and drives the campus map.
 
@@ -94,7 +94,7 @@ support policy and [SECURITY.md](SECURITY.md) for reporting security issues.
 ## License
 
 &copy; 2026 Databricks, Inc. All rights reserved. The source in this project is provided
-subject to the Databricks License [https://databricks.com/db-license-source] — see
+subject to the Databricks License [https://databricks.com/db-license-source]. See
 [LICENSE.md](LICENSE.md). All included or referenced third-party libraries and data are
 subject to the licenses set forth below.
 

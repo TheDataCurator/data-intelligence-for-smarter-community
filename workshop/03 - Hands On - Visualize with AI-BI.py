@@ -9,19 +9,19 @@
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC # Lab 03 — Visualize with AI/BI
+# MAGIC # Lab 03: Visualize with AI/BI
 # MAGIC
 # MAGIC Your Silver data is clean and joinable. Now let's *see* it. **AI/BI Dashboards** let you
-# MAGIC build interactive charts on Unity Catalog data — and the AI **assistant** can draft
+# MAGIC build interactive charts on Unity Catalog data, and **✨ Genie Code** can draft
 # MAGIC visualizations for you from a plain-language ask.
 # MAGIC
 # MAGIC ## Objectives
 # MAGIC - Create an **AI/BI dashboard** and connect it to your Silver tables
 # MAGIC - Build charts for the two hackathon themes: a **transit** view and a **security** view
-# MAGIC - Use the dashboard **assistant** to generate a visualization from a prompt
+# MAGIC - Use **Genie Code** in the dashboard to generate a visualization from a prompt
 # MAGIC
 # MAGIC ## Agenda
-# MAGIC **A.** Setup · **B.** Preview the queries · **C.** Create the dashboard (UI) · **D.** Add charts · **E.** Ask the assistant · **F.** 🎯 Your turn
+# MAGIC **A.** Setup · **B.** Preview the queries · **C.** Create the dashboard (UI) · **D.** Add charts · **E.** Ask Genie Code · **F.** 🎯 Your turn
 
 # COMMAND ----------
 
@@ -39,7 +39,7 @@
 # MAGIC ## B. Preview the queries
 # MAGIC
 # MAGIC A dashboard is just saved SQL + charts. Let's validate the two queries here first, then
-# MAGIC paste them into the dashboard. Note your fully-qualified schema — you'll need it in the UI:
+# MAGIC paste them into the dashboard. Note your fully-qualified schema. You'll need it in the UI:
 
 # COMMAND ----------
 
@@ -47,23 +47,25 @@ print("Your Silver schema (use this in the dashboard):", DA_SILVER)
 
 # COMMAND ----------
 
-# DBTITLE 1,Transit signal — hourly mobility across campus
-# Hourly unique devices (a transit / footfall signal). Copy this SQL (with your schema
-# from the print above) into the dashboard's "Create from SQL" in section C.
-spark.sql(f"""
+# DBTITLE 1,Transit signal: hourly mobility across campus
+# Hourly unique devices (a transit / footfall signal). The printed SQL already has your
+# schema filled in: copy it into the dashboard's "Create from SQL" in section C.
+transit_sql = f"""
     SELECT date_trunc('hour', ts) AS hour,
            COUNT(DISTINCT anon_device_id) AS unique_devices,
            AVG(dwell_seconds) AS avg_dwell_seconds
     FROM {DA_SILVER}.mobility_presence
     GROUP BY 1
     ORDER BY 1
-""").display()
+"""
+print(transit_sql)
+spark.sql(transit_sql).display()
 
 # COMMAND ----------
 
-# DBTITLE 1,Security signal — forced-door and tailgate events by building
-# Security anomalies by building.
-spark.sql(f"""
+# DBTITLE 1,Security signal: forced-door and tailgate events by building
+# Security anomalies by building. Copy the printed SQL into the dashboard in section C.
+security_sql = f"""
     SELECT building_name,
            SUM(CASE WHEN event_type = 'door_forced'       THEN 1 ELSE 0 END) AS forced_doors,
            SUM(CASE WHEN event_type = 'tailgate_detected' THEN 1 ELSE 0 END) AS tailgates,
@@ -73,7 +75,9 @@ spark.sql(f"""
     HAVING forced_doors > 0 OR tailgates > 0
     ORDER BY forced_doors DESC, tailgates DESC
     LIMIT 20
-""").display()
+"""
+print(security_sql)
+spark.sql(security_sql).display()
 
 # COMMAND ----------
 
@@ -83,11 +87,10 @@ spark.sql(f"""
 # MAGIC <div style="border-left:4px solid #1976d2; background:#e3f2fd; padding:14px 18px; border-radius:4px; margin:12px 0; color:#0d47a1;">
 # MAGIC <ol style="margin:0; padding-left:20px; line-height:1.8;">
 # MAGIC   <li>In the left sidebar, click <strong>Dashboards</strong> → <strong>Create dashboard</strong>.</li>
-# MAGIC   <li>Name it <strong>Smart Campus — &lt;your name&gt;</strong>.</li>
+# MAGIC   <li>Name it <strong>Smart Campus Dashboard</strong>.</li>
 # MAGIC   <li>Open the <strong>Data</strong> tab → <strong>Create from SQL</strong>. Paste the
-# MAGIC       <em>Transit signal</em> query from section B (replace <code>${DA_SILVER}</code> with the
-# MAGIC       schema printed above). Name the dataset <code>mobility_hourly</code>. Click <strong>Run</strong>.</li>
-# MAGIC   <li>Add a second dataset the same way for the <em>Security signal</em> query; name it
+# MAGIC       <em>Transit signal</em> SQL printed in section B. Your schema is already filled in. Name the dataset <code>mobility_hourly</code>. Click <strong>Run</strong>.</li>
+# MAGIC   <li>Add a second dataset the same way with the <em>Security signal</em> SQL, and name it
 # MAGIC       <code>security_by_building</code>.</li>
 # MAGIC </ol>
 # MAGIC </div>
@@ -98,9 +101,12 @@ spark.sql(f"""
 # MAGIC ## D. Add charts
 # MAGIC
 # MAGIC <div style="border-left:4px solid #1976d2; background:#e3f2fd; padding:14px 18px; border-radius:4px; margin:12px 0; color:#0d47a1;">
-# MAGIC On the <strong>Canvas</strong> tab, click <strong>Add a visualization</strong> and drag out a widget:
+# MAGIC First, name your page: the canvas opens on a page called <strong>Untitled page</strong>. Rename it to
+# MAGIC <strong>Campus Overview</strong> so viewers know what they are looking at.
+# MAGIC <br/><br/>
+# MAGIC Then click <strong>Add a visualization</strong> and drag out a widget:
 # MAGIC <ul style="margin:8px 0 0 0; padding-left:20px; line-height:1.8;">
-# MAGIC   <li><strong>Line chart</strong> on <code>mobility_hourly</code>: X = <code>hour</code>, Y = <code>unique_devices</code>. This is your campus footfall over time — the transit pulse.</li>
+# MAGIC   <li><strong>Line chart</strong> on <code>mobility_hourly</code>: X = <code>hour</code>, Y = <code>unique_devices</code>. This is your campus footfall over time: the transit pulse.</li>
 # MAGIC   <li><strong>Bar chart</strong> on <code>security_by_building</code>: X = <code>building_name</code>, Y = <code>forced_doors</code>. The buildings with the most forced-door events.</li>
 # MAGIC   <li><strong>Counter</strong> on <code>security_by_building</code>: sum of <code>total_events</code>.</li>
 # MAGIC </ul>
@@ -109,14 +115,14 @@ spark.sql(f"""
 # COMMAND ----------
 
 # MAGIC %md-sandbox
-# MAGIC ## E. Ask the assistant
+# MAGIC ## E. Ask Genie Code
 # MAGIC
 # MAGIC <div style="border-left:4px solid #8E7CC3; background:#F3EEFB; padding:14px 18px; border-radius:4px; margin:12px 0; color:#4A2C7A;">
-# MAGIC Add a visualization, then click the <strong>✨ assistant</strong> and type a plain-language ask, e.g.:
+# MAGIC Add a visualization, then click <strong>✨ Genie Code</strong> and type a plain-language ask, e.g.:
 # MAGIC <br/><br/>
 # MAGIC <em>"Show average dwell time by hour of day"</em> &nbsp;·&nbsp; <em>"Top 10 buildings by total access events"</em>
 # MAGIC <br/><br/>
-# MAGIC The assistant proposes a chart from your dataset — accept it or refine the prompt. This is the
+# MAGIC Genie Code proposes a chart from your dataset. Accept it or refine the prompt. This is the
 # MAGIC same idea you'll use in Lab 05 with Genie, but scoped to a single dashboard widget.
 # MAGIC </div>
 
@@ -127,18 +133,20 @@ spark.sql(f"""
 # MAGIC <div style="border-left:4px solid #00A972; background:#E8F5E9; padding:14px 18px; border-radius:4px; margin:12px 0; color:#1B3139;">
 # MAGIC Add a third dataset + chart of your own from any Silver table. Ideas:
 # MAGIC <code>udl_campus_metrics</code> daily occupancy trend, <code>wireless_node_health</code> cells by status,
-# MAGIC or <code>connectivity_presence</code> Wi-Fi devices by building. Give the dashboard a filter on
-# MAGIC <code>category</code> so viewers can slice by building type.
+# MAGIC or <code>connectivity_presence</code> Wi-Fi devices by building. Include
+# MAGIC <code>category</code> in your query, then add a dashboard filter on it so viewers can slice by building type.
+# MAGIC <br/><br/><strong>💡 Hint:</strong> Run the optional query below to see the data first. Then, in the dashboard, add a visualization and ask <strong>✨ Genie Code</strong>, for example:
+# MAGIC <em>"Show average occupancy by date as a line chart, split by category."</em>
 # MAGIC </div>
 
 # COMMAND ----------
 
-# DBTITLE 1,Optional — a query to seed your third chart
+# DBTITLE 1,Optional: a query to seed your third chart
 spark.sql(f"""
-    SELECT date, AVG(occupancy_pct) AS avg_occupancy, SUM(safety_incidents_count) AS incidents
+    SELECT date, category, AVG(occupancy_pct) AS avg_occupancy, SUM(safety_incidents_count) AS incidents
     FROM {DA_SILVER}.udl_campus_metrics
-    GROUP BY date
-    ORDER BY date
+    GROUP BY date, category
+    ORDER BY date, category
 """).display()
 
 # COMMAND ----------
@@ -146,8 +154,8 @@ spark.sql(f"""
 # MAGIC %md
 # MAGIC ### ✅ Recap
 # MAGIC You built an interactive **AI/BI dashboard** on your Silver data with transit and security
-# MAGIC views, and used the assistant to draft a chart from a prompt. **Lab 04** builds **Gold**
-# MAGIC serving tables — tidy per-building aggregates that make Genie (Lab 05) and your app precise.
+# MAGIC views, and used Genie Code to draft a chart from a prompt. **Lab 04** builds **Gold**
+# MAGIC serving tables: tidy per-building aggregates that make Genie (Lab 05) and your app precise.
 
 # COMMAND ----------
 

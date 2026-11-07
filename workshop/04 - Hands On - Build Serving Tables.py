@@ -9,7 +9,7 @@
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC # Lab 04 — Build Serving Tables (Silver → Gold)
+# MAGIC # Lab 04: Build Serving Tables (Silver → Gold)
 # MAGIC
 # MAGIC **Gold** tables are shaped for consumption: pre-joined, pre-aggregated, one tidy row per
 # MAGIC thing people ask about. They make dashboards fast, make **Genie** accurate (Lab 05), and
@@ -36,11 +36,11 @@
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ## B. Per-building activity — `gold.building_activity`
+# MAGIC ## B. Per-building activity: `gold.building_activity`
 # MAGIC
 # MAGIC One row per building that fuses **security** (access events), **transit** (mobility), and
 # MAGIC **campus** (UDL) signals with the building's map coordinates. This is the table an analyst
-# MAGIC — or Genie — most wants to query.
+# MAGIC (or Genie) most wants to query.
 
 # COMMAND ----------
 
@@ -106,7 +106,7 @@ spark.sql(f"""
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ## C. Per-cell health — `gold.cell_health`
+# MAGIC ## C. Per-cell health: `gold.cell_health`
 # MAGIC The transit/coverage counterpart: one row per cell fusing the **inventory**
 # MAGIC (`wireless_cells`) with rolled-up **KPIs** (`wireless_node_health`). Same idea in PySpark
 # MAGIC this time.
@@ -158,15 +158,19 @@ spark.sql(f"SHOW TABLES IN {DA_GOLD}").display()
 # MAGIC %md-sandbox
 # MAGIC ### E. 🎯 Your turn
 # MAGIC <div style="border-left:4px solid #00A972; background:#E8F5E9; padding:14px 18px; border-radius:4px; margin:12px 0; color:#1B3139;">
-# MAGIC Build a third Gold table — <code>gold.building_connectivity</code> — with one row per building
+# MAGIC Build a third Gold table, <code>gold.building_connectivity</code>, with one row per building
 # MAGIC summarizing Wi-Fi presence: average <code>connected_device_count</code>, total
 # MAGIC <code>motion_events_1h</code>, and gateway count, from <code>connectivity_presence</code> joined to
 # MAGIC <code>sc_gateway_network</code>. This becomes a "which buildings are busiest online" table for Genie.
+# MAGIC <br/><br/><strong>💡 Hint:</strong> Use <strong>Genie Code</strong>. Open it in the TODO cell below and ask, for example:
+# MAGIC <em>"Create a Gold table building_connectivity with one row per building: average connected_device_count and total motion_events_1h from connectivity_presence, and a count of gateways from sc_gateway_network, joined on gateway_id."</em>
+# MAGIC Check that the result has one row per building before you save it.
 # MAGIC </div>
 
 # COMMAND ----------
 
 # TODO: create {DA_GOLD}.building_connectivity
+# Tip: ask Genie Code to write this for you, then read the code before you run it.
 
 # COMMAND ----------
 

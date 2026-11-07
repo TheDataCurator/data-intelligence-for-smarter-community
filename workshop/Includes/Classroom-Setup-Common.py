@@ -154,7 +154,7 @@ def build_user_catalog(prefix: str = CATALOG_PREFIX, catalog_forced=None) -> str
                 return catalog_name
             except Exception as e:
                 raise PermissionError(
-                    f"❌ Could not create catalog '{catalog_name}' — you likely lack the "
+                    f"❌ Could not create catalog '{catalog_name}'. You likely lack the "
                     "CREATE CATALOG privilege in this workspace.\n"
                     "   Workaround: open Classroom-Setup-Common and set EXISTING_CATALOG to a "
                     "catalog you CAN use (run SHOW CATALOGS to see your options), then re-run.\n"
@@ -541,7 +541,7 @@ def ensure_bronze_data(catalog: str):
 
     # 1) Synthetic telemetry Bronze tables (one-time).
     if spark.catalog.tableExists(f"{catalog}.{BRONZE_SCHEMA}.sc_access_events"):
-        print("✅ Bronze telemetry already present — skipping generation.")
+        print("✅ Bronze telemetry already present, skipping generation.")
     else:
         if includes not in sys.path:
             sys.path.insert(0, includes)

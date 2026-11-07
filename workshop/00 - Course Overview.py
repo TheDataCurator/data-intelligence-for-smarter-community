@@ -17,14 +17,14 @@
 # MAGIC ## Overview
 # MAGIC
 # MAGIC This workshop takes you end-to-end on the Databricks Data Intelligence Platform using
-# MAGIC **synthetic cellular-tower and smart-campus data** for the Texas A&M campus in College Station — the
+# MAGIC **synthetic cellular-tower and smart-campus data** for the Texas A&M campus in College Station. It's the
 # MAGIC same kind of data you'll work with in the TAMU Datathon on **transit** and
 # MAGIC **security** use cases.
 # MAGIC
 # MAGIC You will generate a realistic dataset, clean and conform it with the **medallion
 # MAGIC architecture**, explore it with **AI/BI dashboards**, ask questions of it in plain
-# MAGIC English with a **Genie space**, and finish by deploying a live **Databricks App** —
-# MAGIC an interactive campus map over your own data — that you can extend for your hackathon
+# MAGIC English with a **Genie space**, and finish by deploying a live **Databricks App**:
+# MAGIC an interactive campus map over your own data that you can extend for your hackathon
 # MAGIC project.
 # MAGIC
 # MAGIC ## Terminal Objectives
@@ -49,7 +49,7 @@
 # MAGIC <li>Run every notebook on <strong>Serverless</strong> compute (see Requirements below).</li>
 # MAGIC <li>Each lab's <strong>first cell</strong> runs a Classroom-Setup that creates your personal
 # MAGIC     <code>labuser_&lt;username&gt;</code> catalog with <code>bronze</code> / <code>silver</code> /
-# MAGIC     <code>gold</code> schemas. You only build in your own catalog — nothing is shared.</li>
+# MAGIC     <code>gold</code> schemas. You only build in your own catalog, and nothing is shared.</li>
 # MAGIC <li>Run the labs <strong>in order</strong> (01 → 06). Each depends on the tables the previous one created.</li>
 # MAGIC </ul>
 # MAGIC </div>
@@ -99,7 +99,7 @@
 # MAGIC <div style="color:#333;">
 # MAGIC
 # MAGIC - Compute: **`Serverless`** (attach via the **Connect** drop-down, top-right of each notebook).
-# MAGIC - Run the labs **in order** — 01 creates the tables 02 cleans, and so on.
+# MAGIC - Run the labs **in order**: 01 creates the tables 02 cleans, and so on.
 # MAGIC - Unity Catalog enabled, with permission to create a catalog (the setup handles this).
 # MAGIC
 # MAGIC </div>

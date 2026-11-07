@@ -9,9 +9,9 @@
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC # Lab 06 — Deploy the App
+# MAGIC # Lab 06: Deploy the App
 # MAGIC
-# MAGIC The finale: a live **Databricks App** — an interactive TAMU campus map over *your* data,
+# MAGIC The finale: a live **Databricks App**: an interactive TAMU campus map over *your* data,
 # MAGIC with a dropdown of dataset views and an inline **Ask Genie** panel. It's backed by your
 # MAGIC **Silver** tables and the **Genie space** from Lab 05. This is your hackathon starting point.
 # MAGIC
@@ -38,7 +38,7 @@
 # MAGIC ## B. What you're deploying
 # MAGIC A **FastAPI + React** app (source now in your home at the path shown above):
 # MAGIC - `server/` queries your Silver tables through a SQL warehouse and calls the Genie API
-# MAGIC - `frontend/dist/` is the pre-built campus-map UI (Leaflet) — no build step needed
+# MAGIC - `frontend/dist/` is the pre-built campus-map UI (Leaflet), so no build step needed
 # MAGIC - `app.yaml` holds the config the app reads at runtime (catalog, schema, warehouse, Genie space)
 
 # COMMAND ----------
@@ -72,9 +72,9 @@ if dbutils.widgets.get("genie_space_id_override").strip():
     GENIE_SPACE_ID = dbutils.widgets.get("genie_space_id_override").strip()
 
 if GENIE_SPACE_ID:
-    print(f"✅ Ask Genie will be enabled — space {GENIE_SPACE_ID}")
+    print(f"✅ Ask Genie will be enabled for space {GENIE_SPACE_ID}")
 else:
-    print("⚠️ Ask Genie will be DISABLED — the map still works, but the Ask Genie panel will")
+    print("⚠️ Ask Genie will be DISABLED. The map still works, but the Ask Genie panel will")
     print("   report 'not configured'. Finish Lab 05, or paste your Space ID in the widget above,")
     print("   then re-run this notebook to enable it.")
 
@@ -170,7 +170,7 @@ if GENIE_SPACE_ID:
         print(f"⚠️ Could not grant Genie access automatically: {e}\n"
               f"   Grant CAN_RUN on the Genie space to {my_app_sp} in the Genie UI.")
 else:
-    print("ℹ️ No Genie space id set — skipping Genie grant. (Complete Lab 05 first.)")
+    print("ℹ️ No Genie space id set, so skipping Genie grant. (Complete Lab 05 first.)")
 
 # COMMAND ----------
 
@@ -228,15 +228,17 @@ print("\n🎉 Your app is live at:\n", app.url)
 # COMMAND ----------
 
 # MAGIC %md-sandbox
-# MAGIC ### F. 🎯 Your turn — make it yours for the hackathon
+# MAGIC ### F. 🎯 Your turn: make it yours for the hackathon
 # MAGIC <div style="border-left:4px solid #00A972; background:#E8F5E9; padding:14px 18px; border-radius:4px; margin:12px 0; color:#1B3139;">
-# MAGIC The app source is in your home — edit and redeploy:
+# MAGIC The app source is in your home. Edit and redeploy:
 # MAGIC <ul style="margin:8px 0 0 0; padding-left:20px; line-height:1.8;">
-# MAGIC   <li>Change the header title in <code>frontend/dist/…</code>? (Or rebuild from <code>frontend/src</code> in the full repo.)</li>
-# MAGIC   <li>Add a new dataset view in <code>server/datasets.py</code> — e.g. a <strong>transit hub score</strong> from your Gold <code>building_activity</code> table.</li>
+# MAGIC   <li>Change the browser tab title in <code>frontend/dist/index.html</code>. To change more of the page, rebuild from <code>frontend/src</code> in the full repo.</li>
+# MAGIC   <li>Add a new dataset view in <code>server/datasets.py</code>, e.g. a <strong>transit hub score</strong> from your Gold <code>building_activity</code> table.</li>
 # MAGIC   <li>Point the app at <code>gold</code> instead of <code>silver</code> and expose your fused per-building metrics.</li>
 # MAGIC </ul>
 # MAGIC Re-run the deploy cell after any change.
+# MAGIC <br/><br/><strong>💡 Hint:</strong> Open <code>server/datasets.py</code> in your home folder and ask <strong>Genie Code</strong>, for example:
+# MAGIC <em>"Add a dataset view called transit hub score that reads building_activity from my Gold schema, following the pattern of the existing views."</em>
 # MAGIC </div>
 
 # COMMAND ----------
@@ -244,7 +246,7 @@ print("\n🎉 Your app is live at:\n", app.url)
 # MAGIC %md
 # MAGIC ### ✅ You did it
 # MAGIC You took synthetic data from **generation → Bronze → Silver → Gold → AI/BI → Genie → a live
-# MAGIC App**, entirely on Databricks. That's the full Data Intelligence Platform loop — and a
+# MAGIC App**, entirely on Databricks. That's the full Data Intelligence Platform loop, and a
 # MAGIC running head-start for your hackathon project. Good luck! 🚀
 
 # COMMAND ----------

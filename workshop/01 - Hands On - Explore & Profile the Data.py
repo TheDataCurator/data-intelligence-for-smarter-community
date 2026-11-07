@@ -9,7 +9,7 @@
 # COMMAND ----------
 
 # MAGIC %md-sandbox
-# MAGIC # Lab 01 — Explore &amp; Profile the Data
+# MAGIC # Lab 01: Explore &amp; Profile the Data
 # MAGIC
 # MAGIC Before you transform anything, get to know your data. When you ran setup, your workspace
 # MAGIC was seeded with a realistic **smart-community dataset** for the Texas A&M campus in College Station:
@@ -17,7 +17,7 @@
 # MAGIC **Texas A&M campus geodata** (OpenStreetMap, ODbL) was uploaded to a **Volume** for you to
 # MAGIC ingest in Lab 02.
 # MAGIC
-# MAGIC In this lab you'll **query**, **profile**, and **check** that data in Unity Catalog — the
+# MAGIC In this lab you'll **query**, **profile**, and **check** that data in Unity Catalog. These are the
 # MAGIC habits that keep a data project honest.
 # MAGIC
 # MAGIC ## Objectives
@@ -46,12 +46,12 @@
 # MAGIC %md
 # MAGIC ## B. What setup provisioned
 # MAGIC
-# MAGIC - **Bronze telemetry** (9 tables) in `DA_BRONZE` — building access, device health, mobility,
+# MAGIC - **Bronze telemetry** (9 tables) in `DA_BRONZE`: building access, device health, mobility,
 # MAGIC   wireless (cells / coverage / KPIs), gateway connectivity, and daily campus metrics.
-# MAGIC - **Raw geodata** in the Volume `GEODATA_DIR` — the real OpenStreetMap building + neighbourhood
+# MAGIC - **Raw geodata** in the Volume `GEODATA_DIR`: the real OpenStreetMap building + neighbourhood
 # MAGIC   files, waiting to be ingested in Lab 02.
 # MAGIC
-# MAGIC The dimension tables (`dim_buildings`, `dim_zones`) do **not** exist yet — you'll build them
+# MAGIC The dimension tables (`dim_buildings`, `dim_zones`) do **not** exist yet. You'll build them
 # MAGIC from the geodata next lab. Let's confirm what's here.
 
 # COMMAND ----------
@@ -93,7 +93,7 @@ spark.table(f"{DA_BRONZE}.sc_access_events").summary().display()
 
 # COMMAND ----------
 
-# DBTITLE 1,Categorical distribution — event types
+# DBTITLE 1,Categorical distribution: event types
 spark.sql(f"""
     SELECT event_type, COUNT(*) AS n,
            ROUND(100.0 * COUNT(*) / SUM(COUNT(*)) OVER (), 1) AS pct
@@ -104,7 +104,7 @@ spark.sql(f"""
 
 # COMMAND ----------
 
-# DBTITLE 1,Data-quality check — nulls in key columns
+# DBTITLE 1,Data-quality check: nulls in key columns
 from pyspark.sql import functions as F
 
 df = spark.table(f"{DA_BRONZE}.sc_access_events")
@@ -125,7 +125,7 @@ null_counts.display()
 # MAGIC %md
 # MAGIC ## E. Check the geodata Volume
 # MAGIC The one piece of **real** data is the Texas A&M campus geodata. Setup uploaded it to a **Volume**
-# MAGIC (governed file storage in Unity Catalog). Let's confirm it's there and peek inside — this
+# MAGIC (governed file storage in Unity Catalog). Let's confirm it's there and peek inside. This
 # MAGIC is the file you'll ingest in Lab 02.
 
 # COMMAND ----------
@@ -157,11 +157,15 @@ print("Geometry type:", feats[0]["geometry"]["type"])
 # MAGIC Profile a <strong>transit</strong> table instead. For <code>mobility_presence</code>:
 # MAGIC find the number of <strong>distinct devices</strong> and the <strong>average dwell time</strong>, and check
 # MAGIC whether <code>bldg_uid</code> is ever null. Which single building has the most records?
+# MAGIC <br/><br/><strong>💡 Hint:</strong> Use <strong>Genie Code</strong>. Open it in the TODO cell below and ask in plain English, for example:
+# MAGIC <em>"Profile mobility_presence: count distinct devices, average dwell time, null bldg_uid values, and the building with the most records."</em>
+# MAGIC Read the code it writes before you run it.
 # MAGIC </div>
 
 # COMMAND ----------
 
 # TODO: profile {DA_BRONZE}.mobility_presence
+# Tip: ask Genie Code to write this for you, then read the code before you run it.
 
 # COMMAND ----------
 

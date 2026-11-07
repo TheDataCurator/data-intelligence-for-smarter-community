@@ -9,11 +9,11 @@
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC # Lab 05 — Create a Genie Space
+# MAGIC # Lab 05: Create a Genie Space
 # MAGIC
 # MAGIC **Genie** lets anyone ask questions of governed data in plain English and get back SQL,
 # MAGIC tables, and charts. You'll point a Genie space at your Silver + Gold tables, teach it a
-# MAGIC little context, and ask transit & security questions — then capture its **Space ID** so
+# MAGIC little context, and ask transit & security questions, then capture its **Space ID** so
 # MAGIC your app (Lab 06) can use it.
 # MAGIC
 # MAGIC ## Objectives
@@ -49,14 +49,14 @@ print("  Gold:  ", DA_GOLD)
 # MAGIC <div style="border-left:4px solid #1976d2; background:#e3f2fd; padding:14px 18px; border-radius:4px; margin:12px 0; color:#0d47a1;">
 # MAGIC <ol style="margin:0; padding-left:20px; line-height:1.8;">
 # MAGIC   <li>Left sidebar → <strong>Genie</strong> → <strong>New</strong>.</li>
-# MAGIC   <li>Name it <strong>Smart Campus — &lt;your name&gt;</strong>.</li>
+# MAGIC   <li>Name it <strong>Smart Campus Genie</strong>.</li>
 # MAGIC   <li>Choose your <strong>SQL warehouse</strong> (Serverless).</li>
-# MAGIC   <li>Add tables from your <strong>Gold</strong> schema first — <code>building_activity</code> and
-# MAGIC       <code>cell_health</code> — then add key <strong>Silver</strong> tables:
+# MAGIC   <li>Add tables from your <strong>Gold</strong> schema first (<code>building_activity</code> and
+# MAGIC       <code>cell_health</code>), then add key <strong>Silver</strong> tables:
 # MAGIC       <code>sc_access_events</code>, <code>mobility_presence</code>, <code>udl_campus_metrics</code>,
 # MAGIC       <code>dim_buildings</code>.</li>
 # MAGIC </ol>
-# MAGIC Genie is best with a <strong>focused</strong> set of well-named tables — the Gold tables you built
+# MAGIC Genie is best with a <strong>focused</strong> set of well-named tables. The Gold tables you built
 # MAGIC in Lab 04 are ideal because their columns already read like plain English.
 # MAGIC </div>
 
@@ -89,7 +89,7 @@ print("  Gold:  ", DA_GOLD)
 # MAGIC %md
 # MAGIC ## D. Ask questions
 # MAGIC Open the space and try the sample questions plus your own. For each answer, expand the
-# MAGIC **generated SQL** — comparing Genie's SQL to what you'd write is the fastest way to trust it.
+# MAGIC **generated SQL**. Comparing Genie's SQL to what you'd write is the fastest way to trust it.
 # MAGIC Try a follow-up like *"...only for residential buildings"* to see it keep context.
 
 # COMMAND ----------
@@ -99,7 +99,7 @@ print("  Gold:  ", DA_GOLD)
 # MAGIC
 # MAGIC <div style="border-left:4px solid #FFAB00; background:#FFF8E1; padding:14px 18px; border-radius:4px; margin:12px 0; color:#5D4037;">
 # MAGIC Your app in <strong>Lab 06</strong> needs this space's ID. Look at the URL of your open space:
-# MAGIC <br/><code>https://&lt;workspace&gt;/genie/rooms/<strong>01efab...</strong></code> — the part after
+# MAGIC <br/><code>https://&lt;workspace&gt;/genie/rooms/<strong>01efab...</strong></code>. The part after
 # MAGIC <code>/rooms/</code> is the Space ID. Copy it and paste it below, then run the cell to save it.
 # MAGIC </div>
 
@@ -127,6 +127,8 @@ else:
 # MAGIC Ask Genie a question it gets <em>wrong</em> or vague, then improve it: add a clarifying
 # MAGIC <strong>instruction</strong> or a <strong>SQL example</strong> to the space and re-ask. Getting Genie
 # MAGIC from "almost" to "correct" by adding context is the core skill for your hackathon demo.
+# MAGIC <br/><br/><strong>💡 Hint:</strong> Try a question with a fuzzy word, such as <em>"Which buildings are busiest?"</em> Busiest by what: people, devices or door events?
+# MAGIC Add an instruction that defines it, for example <em>"Busiest means the most access events,"</em> then ask again and compare the SQL.
 # MAGIC </div>
 
 # COMMAND ----------
@@ -134,7 +136,7 @@ else:
 # MAGIC %md
 # MAGIC ### ✅ Recap
 # MAGIC You created and tuned a **Genie space** over your governed tables and captured its Space ID.
-# MAGIC In **Lab 06** you deploy the campus-map **app** — wired to your Silver tables and this Genie
+# MAGIC In **Lab 06** you deploy the campus-map **app**, wired to your Silver tables and this Genie
 # MAGIC space, so users can explore the map *and* ask it questions.
 
 # COMMAND ----------

@@ -1,6 +1,6 @@
 # Contributing
 
-Thanks for your interest in improving **Data Intelligence for Smarter Communities** — a
+Thanks for your interest in improving **Data Intelligence for Smarter Communities**, a
 hands-on Databricks accelerator that takes generic telco network signal + campus IoT data
 end-to-end on the Databricks Data Intelligence Platform (Bronze → Silver → Gold → AI/BI →
 Genie → Databricks App), using the Texas A&M campus in College Station as a real geospatial testbed.
@@ -19,11 +19,11 @@ generic, telco-provider-neutral accelerator.
 - **No customer data, PII, or proprietary information.** Do not add any real network data,
   customer records, or data derived from a specific carrier's proprietary systems.
 - **No credentials, tokens, or passwords** in code, notebooks, or config.
-- **Provider-neutral.** Keep the content generic — do not introduce specific telco / ISP
+- **Provider-neutral.** Keep the content generic. Do not introduce specific telco / ISP
   brand names, real PLMNs, or real network identifiers. Use the example test PLMN (`001-01`)
   and generic labels ("the telco", "the carrier", "broadband gateway").
 - The only real data is **OpenStreetMap** (building + neighbourhood footprints), used under
-  **ODbL** — keep its attribution intact.
+  **ODbL**. Keep its attribution intact.
 
 ## Conventions
 

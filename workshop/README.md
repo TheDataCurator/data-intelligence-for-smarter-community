@@ -2,7 +2,7 @@
 
 A hands-on, six-lab workshop that takes students end-to-end on the Databricks Data
 Intelligence Platform using **synthetic cellular-tower + smart-campus data** for the Texas A&M
-campus in College Station — the raw material for the datathon's **transit** and **security** themes.
+campus in College Station: the raw material for the datathon's **transit** and **security** themes.
 
 Students finish with a live, single-tab **Databricks App**: an interactive campus map over
 their own data, with an inline **Ask Genie** panel.
@@ -18,7 +18,7 @@ their own data, with an inline **Ask Genie** panel.
 | 05 | `05 - Hands On - Create a Genie Space` | Natural-language Q&A space + captured Space ID |
 | 06 | `06 - Hands On - Deploy the App` | Live single-tab campus-map app on their data |
 
-Open `00 - Course Overview` first for orientation, then run **labs 01 → 06 in order** — each
+Open `00 - Course Overview` first for orientation, then run **labs 01 → 06 in order**. Each
 depends on the previous.
 
 ## How isolation works
@@ -47,7 +47,7 @@ workshop/
 ## Requirements
 
 - A lab / sandbox workspace (Serverless), Unity Catalog enabled, with permission to create a catalog.
-- Not for production workspaces — the setup creates catalogs, schemas, tables, a Genie space, and an App.
+- Not for production workspaces. The setup creates catalogs, schemas, tables, a Genie space, and an App.
 
 ## Tuning
 
@@ -58,7 +58,7 @@ workshop/
 
 Building footprints, names, and neighbourhoods from **OpenStreetMap** contributors under the
 **Open Database License (ODbL)**. All telco-attributed telemetry
-is synthetic demo data modeled on publicly-known patterns — not derived from any carrier's
+is synthetic demo data modeled on publicly-known patterns, not derived from any carrier's
 proprietary data.
 
 ---

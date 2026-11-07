@@ -9,10 +9,10 @@
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC # Lab 02 — Ingest the Geodata &amp; Clean to Silver
+# MAGIC # Lab 02: Ingest the Geodata &amp; Clean to Silver
 # MAGIC
 # MAGIC Two jobs this lab. First, **ingest** the real Texas A&M campus geodata (OpenStreetMap) sitting in your Volume into
-# MAGIC dimension tables (`dim_buildings`, `dim_zones`) — your first hands-on "load from a source."
+# MAGIC dimension tables (`dim_buildings`, `dim_zones`). It's your first hands-on "load from a source."
 # MAGIC Then promote all of Bronze (the telemetry from setup **plus** your new dimensions) into a
 # MAGIC trustworthy **Silver** layer.
 # MAGIC
@@ -29,7 +29,7 @@
 
 # MAGIC %md-sandbox
 # MAGIC ## A. Setup
-# MAGIC <div style="border-left:4px solid #FF3621; background:#FFF0EE; padding:12px 16px; border-radius:4px; margin:12px 0; color:#1B3139;">Attach <strong>Serverless</strong>, then run the setup cell. It provides the Bronze telemetry and the geodata Volume (<code>GEODATA_DIR</code>) — same as Lab 01.</div>
+# MAGIC <div style="border-left:4px solid #FF3621; background:#FFF0EE; padding:12px 16px; border-radius:4px; margin:12px 0; color:#1B3139;">Attach <strong>Serverless</strong>, then run the setup cell. It provides the Bronze telemetry and the geodata Volume (<code>GEODATA_DIR</code>), same as Lab 01.</div>
 
 # COMMAND ----------
 
@@ -42,13 +42,13 @@
 # MAGIC
 # MAGIC The one piece of **real** data is the OpenStreetMap in your Volume. We read the GeoJSON,
 # MAGIC pull out the fields we want, compute a centroid for each polygon, and write two
-# MAGIC **Bronze** dimension tables — `dim_buildings` and `dim_zones`. Crucially,
-# MAGIC `tamu_buildings.geojson` carries `BLDG_UID` (`TBL10xxx`) — the **same key** the telemetry
-# MAGIC uses — so these dimensions join cleanly to everything else.
+# MAGIC **Bronze** dimension tables: `dim_buildings` and `dim_zones`. Crucially,
+# MAGIC `tamu_buildings.geojson` carries `BLDG_UID` (`TBL10xxx`), the **same key** the telemetry
+# MAGIC uses, so these dimensions join cleanly to everything else.
 
 # COMMAND ----------
 
-# DBTITLE 1,Helper — centroid of a GeoJSON Polygon / MultiPolygon
+# DBTITLE 1,Helper: centroid of a GeoJSON Polygon / MultiPolygon
 def centroid(geom):
     """Mean of all coordinate pairs (good enough to place a building on the map)."""
     t, c = geom["type"], geom["coordinates"]
@@ -120,7 +120,7 @@ display(dim_zones)
 # MAGIC %md
 # MAGIC ## C. What "clean" means here
 # MAGIC
-# MAGIC Silver isn't one magic step — it's a few disciplined checks applied consistently:
+# MAGIC Silver isn't one magic step. It's a few disciplined checks applied consistently:
 # MAGIC
 # MAGIC | Move | Why it matters |
 # MAGIC |---|---|
@@ -149,7 +149,7 @@ def in_campus_bbox(lat_col="latitude", lon_col="longitude"):
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ## D. Clean the dimensions — `dim_buildings`
+# MAGIC ## D. Clean the dimensions: `dim_buildings`
 # MAGIC The building dimension anchors the whole model, so we clean it first: keep one row per
 # MAGIC `bldg_uid`, and only rows with valid TAMU coordinates. (`dim_zones` is cleaned with the
 # MAGIC rest in section F.)
@@ -174,7 +174,7 @@ silver_bld.write.mode("overwrite").option("overwriteSchema", "true").saveAsTable
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ## E. Clean an event stream — `sc_access_events`
+# MAGIC ## E. Clean an event stream: `sc_access_events`
 # MAGIC Event feeds are the classic case for de-duplication (same `event_id` re-delivered) and
 # MAGIC null-key handling (an event with no `bldg_uid` can't be attributed to a building).
 
@@ -206,7 +206,7 @@ print(f"Silver sc_access_events rows: {silver_access.count()}")
 # MAGIC %md
 # MAGIC ## F. Conform the rest
 # MAGIC The remaining tables get the same treatment: drop exact-duplicate rows and, where a table
-# MAGIC has a `bldg_uid`, drop rows where it's null. We loop so the logic stays consistent — this
+# MAGIC has a `bldg_uid`, drop rows where it's null. We loop so the logic stays consistent. This
 # MAGIC is how you'd promote many tables at once in a real pipeline.
 
 # COMMAND ----------
@@ -225,7 +225,7 @@ for tbl in REMAINING:
     df = spark.table(f"{DA_BRONZE}.{tbl}").dropDuplicates()
     if "bldg_uid" in df.columns:
         df = df.filter(F.col("bldg_uid").isNotNull())
-    # Cell towers are point locations — validate they sit on campus. (Zones are
+    # Cell towers are point locations, so validate they sit on campus. (Zones are
     # neighbourhood areas whose centroid can sit near the bbox edge, so we don't
     # bbox-filter those.)
     if set(["latitude", "longitude"]).issubset(df.columns) and tbl == "wireless_cells":
@@ -240,7 +240,7 @@ display(spark.createDataFrame(results, ["silver_table", "row_count"]).orderBy("s
 # MAGIC %md
 # MAGIC ### Referential-integrity check
 # MAGIC A good Silver layer *joins*. Let's confirm every `bldg_uid` in the access stream matches a
-# MAGIC building — this is the check that makes the campus map trustworthy.
+# MAGIC building. This is the check that makes the campus map trustworthy.
 
 # COMMAND ----------
 
@@ -259,13 +259,18 @@ spark.sql(f"""
 # MAGIC ### G. 🎯 Your turn
 # MAGIC <div style="border-left:4px solid #00A972; background:#E8F5E9; padding:14px 18px; border-radius:4px; margin:12px 0; color:#1B3139;">
 # MAGIC The <code>udl_campus_metrics</code> table is a <strong>daily</strong> feed (one row per building per day).
-# MAGIC Write a check that finds any <code>occupancy_pct</code> values outside the valid <strong>0–100</strong>
-# MAGIC range in your Silver table. If you find bad values, how would you clean them — clamp, or drop?
+# MAGIC <strong>Prove the data is clean.</strong> Write a check that looks for any <code>occupancy_pct</code> values outside the valid
+# MAGIC <strong>0–100</strong> range in your Silver table. A correct check returns <strong>zero rows</strong>: that result is your proof.
+# MAGIC Then think it through: if bad values did show up in a real feed, would you clamp them (pin each value to 0 or 100) or drop them (remove the row)? Why?
+# MAGIC <br/><br/><strong>💡 Hint:</strong> Use <strong>Genie Code</strong>. Open it in the TODO cell below and ask in plain English, for example:
+# MAGIC <em>"Write a query that finds rows in udl_campus_metrics where occupancy_pct is below 0 or above 100."</em>
+# MAGIC Then ask it to show you both cleanup options, clamp and drop, so you can compare them.
 # MAGIC </div>
 
 # COMMAND ----------
 
-# TODO: find occupancy_pct values outside 0–100 in {DA_SILVER}.udl_campus_metrics
+# TODO: check for occupancy_pct values outside 0–100 in {DA_SILVER}.udl_campus_metrics (expect zero rows)
+# Tip: ask Genie Code to write this check for you, then read the query before you run it.
 
 # COMMAND ----------
 
