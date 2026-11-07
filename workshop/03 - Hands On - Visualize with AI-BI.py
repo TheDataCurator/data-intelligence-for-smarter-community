@@ -136,7 +136,7 @@ spark.sql(security_sql).display()
 # MAGIC or <code>connectivity_presence</code> Wi-Fi devices by building. Include
 # MAGIC <code>category</code> in your query, then add a dashboard filter on it so viewers can slice by building type.
 # MAGIC <br/><br/><strong>💡 Hint:</strong> Run the optional query below to see the data first. Then, in the dashboard, add a visualization and ask <strong>✨ Genie Code</strong>, for example:
-# MAGIC <em>"Show average occupancy by date as a line chart, split by category."</em>
+# MAGIC <em>"Line chart of avg_occupancy by date, with one line per category."</em> Those are the column names the optional query returns.
 # MAGIC </div>
 
 # COMMAND ----------

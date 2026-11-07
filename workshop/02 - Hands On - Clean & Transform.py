@@ -263,8 +263,9 @@ spark.sql(f"""
 # MAGIC <strong>0–100</strong> range in your Silver table. A correct check returns <strong>zero rows</strong>: that result is your proof.
 # MAGIC Then think it through: if bad values did show up in a real feed, would you clamp them (pin each value to 0 or 100) or drop them (remove the row)? Why?
 # MAGIC <br/><br/><strong>💡 Hint:</strong> Use <strong>Genie Code</strong>. Open it in the TODO cell below and ask in plain English, for example:
-# MAGIC <em>"Write a query that finds rows in udl_campus_metrics where occupancy_pct is below 0 or above 100."</em>
+# MAGIC <em>"Write a query on my Silver udl_campus_metrics table that returns bldg_uid, date and occupancy_pct for rows where occupancy_pct is below 0 or above 100."</em>
 # MAGIC Then ask it to show you both cleanup options, clamp and drop, so you can compare them.
+# MAGIC <br/><strong>Tip:</strong> in the Genie Code box, type <code>@</code> and pick the table so Genie Code reads its real column names. If the code it writes fails, type <code>/fix</code> and Genie Code will repair it.
 # MAGIC </div>
 
 # COMMAND ----------

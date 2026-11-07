@@ -165,6 +165,7 @@ spark.sql(f"SHOW TABLES IN {DA_GOLD}").display()
 # MAGIC <br/><br/><strong>💡 Hint:</strong> Use <strong>Genie Code</strong>. Open it in the TODO cell below and ask, for example:
 # MAGIC <em>"Create a Gold table building_connectivity with one row per building: average connected_device_count and total motion_events_1h from connectivity_presence, and a count of gateways from sc_gateway_network, joined on gateway_id."</em>
 # MAGIC Check that the result has one row per building before you save it.
+# MAGIC <br/><strong>Tip:</strong> in the Genie Code box, type <code>@</code> and pick the table so Genie Code reads its real column names. If the code it writes fails, type <code>/fix</code> and Genie Code will repair it.
 # MAGIC </div>
 
 # COMMAND ----------

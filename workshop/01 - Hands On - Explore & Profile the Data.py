@@ -158,8 +158,9 @@ print("Geometry type:", feats[0]["geometry"]["type"])
 # MAGIC find the number of <strong>distinct devices</strong> and the <strong>average dwell time</strong>, and check
 # MAGIC whether <code>bldg_uid</code> is ever null. Which single building has the most records?
 # MAGIC <br/><br/><strong>💡 Hint:</strong> Use <strong>Genie Code</strong>. Open it in the TODO cell below and ask in plain English, for example:
-# MAGIC <em>"Profile mobility_presence: count distinct devices, average dwell time, null bldg_uid values, and the building with the most records."</em>
+# MAGIC <em>"Profile mobility_presence: count distinct anon_device_id values, average dwell_seconds, rows where bldg_uid is null, and the bldg_uid with the most records."</em>
 # MAGIC Read the code it writes before you run it.
+# MAGIC <br/><strong>Tip:</strong> in the Genie Code box, type <code>@</code> and pick the table so Genie Code reads its real column names. If the code it writes fails, type <code>/fix</code> and Genie Code will repair it.
 # MAGIC </div>
 
 # COMMAND ----------
