@@ -3,11 +3,6 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC _Modified November 2026 by Hayley Horn for the TAMU Datathon: UBC campus data and references replaced with Texas A&M campus data from OpenStreetMap (ODbL)._
-
-# COMMAND ----------
-
 # DBTITLE 1,Provision this student's catalog + medallion schemas
 catalog = resolve_catalog()
 create_schemas(catalog, SCHEMAS)
@@ -34,3 +29,8 @@ display_config_values([
     ('Workshop scale', f'{WORKSHOP_SCALE} &nbsp;(fraction of the full reference dataset)'),
 ])
 setup_complete_msg()
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC _Modified November 2026 by Hayley Horn for the TAMU Datathon, from the original [Data Intelligence for Smarter Communities](https://github.com/databricks-solutions/data-intelligence-for-smarter-community) workshop: UBC campus data and references replaced with Texas A&M campus data from OpenStreetMap (ODbL)._

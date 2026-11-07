@@ -8,11 +8,6 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC _Modified November 2026 by Hayley Horn for the TAMU Datathon: UBC campus data and references replaced with Texas A&M campus data from OpenStreetMap (ODbL)._
-
-# COMMAND ----------
-
 # MAGIC %md-sandbox
 # MAGIC # Lab 01 — Explore &amp; Profile the Data
 # MAGIC
@@ -175,6 +170,11 @@ print("Geometry type:", feats[0]["geometry"]["type"])
 # MAGIC You explored and profiled the Bronze telemetry in Unity Catalog and confirmed the raw
 # MAGIC **OpenStreetMap** is staged in your Volume. In **Lab 02** you'll **ingest** that geodata into
 # MAGIC `dim_buildings` and `dim_zones`, then clean everything into a trustworthy **Silver** layer.
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC _Modified November 2026 by Hayley Horn for the TAMU Datathon, from the original [Data Intelligence for Smarter Communities](https://github.com/databricks-solutions/data-intelligence-for-smarter-community) workshop: UBC campus data and references replaced with Texas A&M campus data from OpenStreetMap (ODbL)._
 
 # COMMAND ----------
 

@@ -1,5 +1,3 @@
-_Modified November 2026 for the TAMU Datathon: UBC references replaced with Texas A&M and OpenStreetMap (ODbL)._
-
 # Contributing
 
 Thanks for your interest in improving **Data Intelligence for Smarter Communities** — a
@@ -45,3 +43,7 @@ generic, telco-provider-neutral accelerator.
 
 See [NOTICE.md](NOTICE.md) for support expectations and [SECURITY.md](SECURITY.md) for
 reporting security vulnerabilities.
+
+---
+
+_Modified November 2026 by Hayley Horn for the TAMU Datathon, from the original [databricks-solutions/data-intelligence-for-smarter-community](https://github.com/databricks-solutions/data-intelligence-for-smarter-community): UBC campus data and references replaced with Texas A&M campus data from OpenStreetMap (ODbL)._

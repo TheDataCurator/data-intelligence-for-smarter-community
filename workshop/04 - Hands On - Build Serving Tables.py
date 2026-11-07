@@ -9,11 +9,6 @@
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC _Modified November 2026 by Hayley Horn for the TAMU Datathon: UBC campus data and references replaced with Texas A&M campus data from OpenStreetMap (ODbL)._
-
-# COMMAND ----------
-
-# MAGIC %md
 # MAGIC # Lab 04 — Build Serving Tables (Silver → Gold)
 # MAGIC
 # MAGIC **Gold** tables are shaped for consumption: pre-joined, pre-aggregated, one tidy row per
@@ -180,6 +175,11 @@ spark.sql(f"SHOW TABLES IN {DA_GOLD}").display()
 # MAGIC You built **Gold** serving tables (`building_activity`, `cell_health`) that fuse multiple
 # MAGIC datasets into one tidy row per entity. In **Lab 05** you'll point a **Genie space** at your
 # MAGIC Silver + Gold tables and ask questions in plain English.
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC _Modified November 2026 by Hayley Horn for the TAMU Datathon, from the original [Data Intelligence for Smarter Communities](https://github.com/databricks-solutions/data-intelligence-for-smarter-community) workshop: UBC campus data and references replaced with Texas A&M campus data from OpenStreetMap (ODbL)._
 
 # COMMAND ----------
 

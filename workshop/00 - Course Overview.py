@@ -11,11 +11,6 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC _Modified November 2026 by Hayley Horn for the TAMU Datathon: UBC campus data and references replaced with Texas A&M campus data from OpenStreetMap (ODbL)._
-
-# COMMAND ----------
-
 # MAGIC %md-sandbox
 # MAGIC # Smart Community Testbed on Databricks
 # MAGIC
@@ -109,6 +104,11 @@
 # MAGIC
 # MAGIC </div>
 # MAGIC </div>
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC _Modified November 2026 by Hayley Horn for the TAMU Datathon, from the original [Data Intelligence for Smarter Communities](https://github.com/databricks-solutions/data-intelligence-for-smarter-community) workshop: UBC campus data and references replaced with Texas A&M campus data from OpenStreetMap (ODbL)._
 
 # COMMAND ----------
 

@@ -9,11 +9,6 @@
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC _Modified November 2026 by Hayley Horn for the TAMU Datathon: UBC campus data and references replaced with Texas A&M campus data from OpenStreetMap (ODbL)._
-
-# COMMAND ----------
-
-# MAGIC %md
 # MAGIC # Lab 02 — Ingest the Geodata &amp; Clean to Silver
 # MAGIC
 # MAGIC Two jobs this lab. First, **ingest** the real Texas A&M campus geodata (OpenStreetMap) sitting in your Volume into
@@ -279,6 +274,11 @@ spark.sql(f"""
 # MAGIC You promoted 11 Bronze tables to a cleaned, conformed **Silver** layer: de-duplicated,
 # MAGIC coordinate-validated, null-key-filtered, and referentially sound. **Lab 03** visualizes
 # MAGIC this Silver data in an **AI/BI dashboard**.
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC _Modified November 2026 by Hayley Horn for the TAMU Datathon, from the original [Data Intelligence for Smarter Communities](https://github.com/databricks-solutions/data-intelligence-for-smarter-community) workshop: UBC campus data and references replaced with Texas A&M campus data from OpenStreetMap (ODbL)._
 
 # COMMAND ----------
 

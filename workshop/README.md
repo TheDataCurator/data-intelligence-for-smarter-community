@@ -1,7 +1,5 @@
 # Smart Community Testbed on Databricks: TAMU Smart Campus Workshop
 
-_Modified November 2026 for the TAMU Datathon: UBC campus data replaced with Texas A&M campus data from OpenStreetMap (ODbL)._
-
 A hands-on, six-lab workshop that takes students end-to-end on the Databricks Data
 Intelligence Platform using **synthetic cellular-tower + smart-campus data** for the Texas A&M
 campus in College Station — the raw material for the datathon's **transit** and **security** themes.
@@ -62,3 +60,7 @@ Building footprints, names, and neighbourhoods from **OpenStreetMap** contributo
 **Open Database License (ODbL)**. All telco-attributed telemetry
 is synthetic demo data modeled on publicly-known patterns — not derived from any carrier's
 proprietary data.
+
+---
+
+_Modified November 2026 by Hayley Horn for the TAMU Datathon, from the original [databricks-solutions/data-intelligence-for-smarter-community](https://github.com/databricks-solutions/data-intelligence-for-smarter-community): UBC campus data and references replaced with Texas A&M campus data from OpenStreetMap (ODbL)._

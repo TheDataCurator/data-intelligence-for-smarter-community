@@ -1,13 +1,5 @@
 # Data Intelligence for Smarter Communities: Texas A&M Edition
 
-> **TAMU Datathon 2026 edition.** This is a modified copy of
-> [databricks-solutions/data-intelligence-for-smarter-community](https://github.com/databricks-solutions/data-intelligence-for-smarter-community),
-> adapted in November 2026 for the Texas A&M Datathon. The UBC campus map data was replaced
-> with Texas A&M building footprints from OpenStreetMap, and campus names, coordinates,
-> zones and app branding were changed to match. Modified files carry a notice at the top.
-> Map data © [OpenStreetMap contributors](https://www.openstreetmap.org/copyright), available
-> under the Open Database License (ODbL). All telemetry is synthetic.
-
 A hands-on Databricks accelerator that shows how a **telco provider** can turn network
 signal + campus/city IoT data into governed **smart-community intelligence** on the
 Databricks Data Intelligence Platform — an alternative to communities building an in-house
@@ -115,3 +107,15 @@ subject to the licenses set forth below.
 | FastAPI | Reference app backend | MIT | https://github.com/tiangolo/fastapi |
 | React | Reference app frontend | MIT | https://github.com/facebook/react |
 | Leaflet | Interactive campus map | BSD-2-Clause | https://github.com/Leaflet/Leaflet |
+
+---
+
+## About this edition
+
+This is a modified copy of
+[databricks-solutions/data-intelligence-for-smarter-community](https://github.com/databricks-solutions/data-intelligence-for-smarter-community),
+adapted in November 2026 for the Texas A&M Datathon. The UBC campus map data was replaced
+with Texas A&M building footprints from OpenStreetMap, and campus names, coordinates,
+zones and app branding were changed to match. Modified files carry a notice.
+Map data © [OpenStreetMap contributors](https://www.openstreetmap.org/copyright), available
+under the Open Database License (ODbL). All telemetry is synthetic.

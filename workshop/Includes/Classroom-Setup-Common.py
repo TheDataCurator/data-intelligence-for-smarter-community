@@ -5,11 +5,6 @@
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC _Modified November 2026 by Hayley Horn for the TAMU Datathon: UBC campus data and references replaced with Texas A&M campus data from OpenStreetMap (ODbL)._
-
-# COMMAND ----------
-
-# MAGIC %md
 # MAGIC # Classroom-Setup-Common
 # MAGIC Shared helpers for the **TAMU Smart Campus** workshop. Every per-lab
 # MAGIC setup notebook (`Classroom-Setup-01` … `Classroom-Setup-06`) runs this file first
@@ -564,3 +559,8 @@ def ensure_bronze_data(catalog: str):
             shutil.copy(f"{includes}/geojson/{fn}", dst)
     print(f"✅ Texas A&M campus geodata uploaded to Volume: {vol_dir}")
     return vol_dir
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC _Modified November 2026 by Hayley Horn for the TAMU Datathon, from the original [Data Intelligence for Smarter Communities](https://github.com/databricks-solutions/data-intelligence-for-smarter-community) workshop: UBC campus data and references replaced with Texas A&M campus data from OpenStreetMap (ODbL)._

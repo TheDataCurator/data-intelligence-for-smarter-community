@@ -9,11 +9,6 @@
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC _Modified November 2026 by Hayley Horn for the TAMU Datathon: UBC campus data and references replaced with Texas A&M campus data from OpenStreetMap (ODbL)._
-
-# COMMAND ----------
-
-# MAGIC %md
 # MAGIC # Lab 05 — Create a Genie Space
 # MAGIC
 # MAGIC **Genie** lets anyone ask questions of governed data in plain English and get back SQL,
@@ -141,6 +136,11 @@ else:
 # MAGIC You created and tuned a **Genie space** over your governed tables and captured its Space ID.
 # MAGIC In **Lab 06** you deploy the campus-map **app** — wired to your Silver tables and this Genie
 # MAGIC space, so users can explore the map *and* ask it questions.
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC _Modified November 2026 by Hayley Horn for the TAMU Datathon, from the original [Data Intelligence for Smarter Communities](https://github.com/databricks-solutions/data-intelligence-for-smarter-community) workshop: UBC campus data and references replaced with Texas A&M campus data from OpenStreetMap (ODbL)._
 
 # COMMAND ----------
 

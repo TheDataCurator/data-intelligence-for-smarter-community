@@ -9,11 +9,6 @@
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC _Modified November 2026 by Hayley Horn for the TAMU Datathon: UBC campus data and references replaced with Texas A&M campus data from OpenStreetMap (ODbL)._
-
-# COMMAND ----------
-
-# MAGIC %md
 # MAGIC # Lab 06 — Deploy the App
 # MAGIC
 # MAGIC The finale: a live **Databricks App** — an interactive TAMU campus map over *your* data,
@@ -251,6 +246,11 @@ print("\n🎉 Your app is live at:\n", app.url)
 # MAGIC You took synthetic data from **generation → Bronze → Silver → Gold → AI/BI → Genie → a live
 # MAGIC App**, entirely on Databricks. That's the full Data Intelligence Platform loop — and a
 # MAGIC running head-start for your hackathon project. Good luck! 🚀
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC _Modified November 2026 by Hayley Horn for the TAMU Datathon, from the original [Data Intelligence for Smarter Communities](https://github.com/databricks-solutions/data-intelligence-for-smarter-community) workshop: UBC campus data and references replaced with Texas A&M campus data from OpenStreetMap (ODbL)._
 
 # COMMAND ----------
 
